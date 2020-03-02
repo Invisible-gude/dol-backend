@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import UserModel from '../../models/UserModel';
 
+
 var user_model = new UserModel;
 class Login extends Component {
   constructor(props) {
@@ -57,10 +58,7 @@ class Login extends Component {
 
   }
   render() {
-
-
     return (
-
       <Form onSubmit={this.handleSubmit} id="myForm" style={{backgroundColor:'#fff'}}>
         <div>
           <Container className="flex-login">
@@ -103,7 +101,6 @@ class Login extends Component {
     );
   }
 }
-
 
 export default Login;
 

@@ -44,7 +44,7 @@ class EmployeeInsert extends Component {
       var arr = {};
       var employee_name = document.getElementById("employee_name").value;
       var employee_lastname = document.getElementById("employee_lastname").value;
-  
+      
       if (employee_name == '') {
         swal({
           title: "Warning!",
