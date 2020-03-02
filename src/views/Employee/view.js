@@ -19,17 +19,17 @@ class CustomerView extends Component {
 
   async componentDidMount() {
     const employee_list = await user_model.getEmployeeBy();
-    console.log("customer_list ===",employee_list);
+    // console.log("customer_list ===",employee_list);
     
     this.setState({
         employee_list : employee_list.data,
         employee_id : employee_list.data.map((item,index) => item.employee_id)
     })
-    console.log("employee_id",this.state.employee_id)
+    // console.log("employee_id",this.state.employee_id)
   }
 
   async onDelete(code) {
-    console.log("code",code);
+    // console.log("code",code);
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -58,7 +58,7 @@ class CustomerView extends Component {
       });
   }
   async onDelete(employee_id) {
-    console.log("code",employee_id);
+    // console.log("code",employee_id);
     
     swal({
       title: "Are you sure?",
@@ -102,16 +102,26 @@ class CustomerView extends Component {
           )
       },
       {
-          title: 'ชื่อ - สกุล',
-          dataIndex: 'employee_name',
+          title: 'ชื่อ',
+          dataIndex:  'employee_name',
           key: 'employee_name',
           width: '25%',
           render: (text, record, index) =>(
             <span key={index}>
-           {text+" "+this.state.employee_list.map(item => this.state.employee_list[1].employee_lastname)}
+           {text}
         </span>
           )
-      },  
+      },{
+        title: 'นามสกุล',
+        dataIndex:  'employee_lastname',
+        key: 'employee_lastname',
+        width: '25%',
+        render: (text, record, index) =>(
+          <span key={index}>
+         {text}
+      </span>
+        )
+    },    
       {
         title: 'แผนก',
         dataIndex: 'department_name',
