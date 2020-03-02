@@ -108,7 +108,7 @@ class CustomerView extends Component {
           width: '25%',
           render: (text, record, index) =>(
             <span key={index}>
-           {text}
+           {text+" "+this.state.employee_list.map(item => this.state.employee_list[1].employee_lastname)}
         </span>
           )
       },  
