@@ -54,7 +54,6 @@ class Login extends Component {
 
       }
     }
-
   }
   render() {
 

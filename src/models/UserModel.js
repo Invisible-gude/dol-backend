@@ -34,4 +34,34 @@ export default class UserModel {
                 console.error(error);
             });
     }
+    async insertEmployee(data) {
+        return fetch(GOBALS.URL + 'employee/insertEmployee', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
+    async checkUsernameEmployee(data) {
+        return fetch(GOBALS.URL + 'employee/checkUsernameEmployee', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
 }

@@ -120,7 +120,8 @@ class CustomerView extends Component {
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
-              dataSource={this.state.employee_list} 
+              dataSource={this.state.employee_list}
+              pagination={{ pageSize: 5 }}  
               />
               </CardBody>
             </Card>
