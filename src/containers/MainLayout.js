@@ -46,13 +46,19 @@ class DefaultLayout extends Component {
             <Menu.Item key="0">
                 <img src={logo} alt="Ravel Soft Logo" style={{width:100}}/>
             </Menu.Item>
-                <Menu.Item key="1">
-              <Link to='/employee'>
+            <Menu.Item key="1">
+              <Link to='/department'>
                   <Icon type="pie-chart" />
-                  <span>Employee</span>
+                  <span>Department</span>
               </Link>
-                </Menu.Item>
+            </Menu.Item>
             <Menu.Item key="2">
+              <Link to='/employee'>
+                <Icon type="pie-chart" />
+                <span>Employee</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="3">
               <Icon type="desktop" />
               <span>Option 2</span>
             </Menu.Item>
