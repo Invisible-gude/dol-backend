@@ -5,6 +5,7 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 // Pages
 const EmployeeView = React.lazy(() => import('./view'));
 const EmployeeInsert = React.lazy(() => import('./insert'));
+const EmployeeUpdate = React.lazy(() => import('./update'));
 
 class EmployeeMain extends Component {
 
@@ -15,7 +16,7 @@ class EmployeeMain extends Component {
           <Switch>
           <Route exact path="/employee" name="Login Page" render={props => <EmployeeView {...props} />} />
             <Route exact path="/employee/insert" name="Login Page" render={props => <EmployeeInsert {...props} />} />
-            {/* <Route exact path="/customer/update/:customer_code" name="Login Page" render={props => <CustomerUpdate {...props} />} /> */}
+            <Route exact path="/employee/update/:employee_id" name="Login Page" render={props => <EmployeeUpdate {...props} />} />
           </Switch>
         </React.Suspense>
       </HashRouter>
