@@ -62,7 +62,7 @@ class EmployeeInsert extends Component {
         });
       } 
         arr['customer_name'] = employee_name;
-        arr['employee_lastname'] = employee_lastname;
+        arr['employee_lastnamecc'] = employee_lastname;
         
         const employee = await department_model.insertCustomer(arr);
         console.log('customer ',employee);
