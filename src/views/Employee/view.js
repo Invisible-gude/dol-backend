@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Card, CardHeader, Col, Row, CardBody } from 'reactstrap';
+import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import UserModel from '../../models/UserModel';
-import { Table, Button, Tag } from 'antd';
+import { Table } from 'antd';
 
 var user_model = new UserModel;
 
@@ -13,7 +13,7 @@ class CustomerView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      customer_list: []
+      employee_list: []
     };
   }
 
@@ -22,11 +22,14 @@ class CustomerView extends Component {
     console.log("customer_list ===",employee_list);
     
     this.setState({
-        employee_list: employee_list.data
+        employee_list : employee_list.data,
+        employee_id : employee_list.data.map((item,index) => item.employee_id)
     })
+    console.log("employee_id",this.state.employee_id)
   }
 
   async onDelete(code) {
+    console.log("code",code);
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -37,6 +40,36 @@ class CustomerView extends Component {
       .then((willDelete) => {
         if (willDelete) {
             user_model.deleteCustomerBycode(code).then((res) => {
+            if (res.query_result == true) {
+              swal("Delete success!", {
+                icon: "success",
+              });
+              this.componentDidMount()
+            } else {
+              swal({
+                title: "Error!",
+                text: " Error Delete ",
+                icon: "error",
+                button: "Close",
+              });
+            }
+          })
+        }
+      });
+  }
+  async onDelete(employee_id) {
+    console.log("code",employee_id);
+    
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure you want to delete this item?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          user_model.deleteEmployeeByEmployeeCode(employee_id).then((res) => {
             if (res.query_result == true) {
               swal("Delete success!", {
                 icon: "success",
@@ -91,20 +124,25 @@ class CustomerView extends Component {
         )
     },      
       {
-          title: 'แก้ไข',
-          key: 'edit',
+          title: '',
+          dataIndex: 'employee_id',
+          key: 'employee_id',
           align: 'center',
           width: '20%',
           render: (text, record) =>
-              <span>
-                <Button>
-                asdasdasd
+          <span>        
+                 <NavLink exact to={`/employee/update/` + text} style={{ color: '#337ab7' }}>
+                    <i className="fa fa-pencil-square-o" ></i>
+                </NavLink>
+                <Button type="button" size="sm" color="link" style={{ color: 'red' }}
+                    onClick={() => this.onDelete(text)}   >
+                    <i className="fa fa-times" aria-hidden="true"></i>
                 </Button>
               </span>
       },
   ];
 
-    const { customer_list } = this.state;
+
     return (
       <div className="animated fadeIn">
         <Row>

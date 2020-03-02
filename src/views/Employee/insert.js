@@ -102,7 +102,7 @@ class EmployeeInsert extends Component {
         icon: "warning",
         button: "Close",
       });
-    }
+    }else {
     arr['department_id'] = employee_department;
     arr['employee_name'] = employee_name;
     arr['employee_lastname'] = employee_lastname;
@@ -122,6 +122,7 @@ class EmployeeInsert extends Component {
       window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
     }
   }
+}
   _onAdminUserChange(event) {
 
     const employee_user_text = event.target.value;
