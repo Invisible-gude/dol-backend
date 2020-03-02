@@ -58,11 +58,38 @@ class DefaultLayout extends Component {
                 <span>Employee</span>
               </Link>
             </Menu.Item>
+            <SubMenu
+              key="sub3"
+              title={
+                <span>
+                Service                  
+                </span>
+              }
+            >
+              <Menu.Item key="9">
+                <Link to='/servicegroup'>
+                  <Icon type="pie-chart" />
+                  <span>Service Group</span>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="10">
+                <Link to='/servicetype'>
+                  <Icon type="pie-chart" />
+                  <span>Service Type</span>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="11">
+                <Link to='/service'>
+                  <Icon type="pie-chart" />
+                  <span>Service</span>
+                </Link>
+              </Menu.Item>
+            </SubMenu>
             <Menu.Item key="3">
               <Icon type="desktop" />
               <span>Option 2</span>
             </Menu.Item>
-            <Menu.Item key="9">
+            <Menu.Item key="12">
               <Icon type="file" />
               <span onClick={e => this.onLogout(e)}>Logout</span>
             </Menu.Item>
