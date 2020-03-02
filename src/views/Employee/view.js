@@ -25,6 +25,7 @@ class CustomerView extends Component {
         employee_list: employee_list.data
     })
   }
+
   async onDelete(code) {
     swal({
       title: "Are you sure?",
@@ -96,6 +97,9 @@ class CustomerView extends Component {
           width: '20%',
           render: (text, record) =>
               <span>
+                <Button>
+                asdasdasd
+                </Button>
               </span>
       },
   ];
@@ -116,7 +120,8 @@ class CustomerView extends Component {
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
-              dataSource={this.state.employee_list} />
+              dataSource={this.state.employee_list} 
+              />
               </CardBody>
             </Card>
           </Col>

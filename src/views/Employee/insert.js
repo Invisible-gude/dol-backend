@@ -15,30 +15,30 @@ import { Input, Select } from 'antd'
 var department_model = new DepartmentModel;
 
 const { Option } = Select;
+
 class EmployeeInsert extends Component {
 
     constructor(props) {
       super(props)
       this.state = {
-        employee_id: '',
-        department_name:''
+        department: [],
       };
+
       this.handleSubmit = this.handleSubmit.bind(this)
     }
   
     async componentDidMount() {
       console.log("componentDidMount");
-      const res = await department_model.getDepartmentBy();
-      let employee = res.data.map((item,index) => res.data[index].department_name)
-      console.log(res.data.map((item,index) => res.data[index].department_name));
-      this.setState(
-        {department_name : employee}
-      )
-      console.log(this.state.department_name);
-      }
+
+      const department = await department_model.getDepartmentBy();
+
+      this.setState({
+        department : department.data,
+      })
+    }
+
     
-  
-  
+
     async handleSubmit(event) {
       event.preventDefault();
       var arr = {};
@@ -80,6 +80,10 @@ class EmployeeInsert extends Component {
  
   
     render() {
+      let department_select = this.state.department.map((item,index) => (
+        <Option key={index} value={item.department_id}>{item.department_name}</Option>
+      ))
+
       return (
         <div className="animated fadeIn">
           <Row>
@@ -94,25 +98,23 @@ class EmployeeInsert extends Component {
                       <Col lg="3">
                         <FormGroup>
                           <Label>ชื่อ / Name <font color="#F00"><b>*</b></font></Label>
-                          <Input type="text" id="customer_name" name="customer_name" class="form-control" />
-                          <p class="help-block">Example : วินัย.</p>
+                          <Input type="text" id="customer_name" name="customer_name" className="form-control" />
+                          <p className="help-block">Example : วินัย.</p>
                         </FormGroup>
                       </Col>
                       <Col lg="3">
                         <FormGroup>
                           <Label>นามสกุล / Lastname <font color="#F00"><b>*</b></font></Label>
-                          <Input type="text" id="customer_lastname" name="customer_lastname" class="form-control" />
-                          <p class="help-block">Example : ชาญชัย.</p>
+                          <Input type="text" id="customer_lastname" name="customer_lastname" className="form-control" />
+                          <p className="help-block">Example : ชาญชัย.</p>
                         </FormGroup>
                       </Col>
                       <Col lg="3">
                         <FormGroup>
                           <Label>แผนก / Department <font color="#F00"><b>*</b></font> </Label>
-                          <Select mode="multiple" placeholder="Please select favourite colors">
-                            <Option value={this.state.department_name}>{this.state.department_name}</Option>
-                            {/* <Option value="green">Green</Option>
-                            <Option value="blue">Blue</Option> */}
-                          </Select>        
+                          <Select  placeholder="Please select favourite colors">
+                            {department_select}
+                          </Select>
                         </FormGroup>
                       </Col>
                     </FormGroup>
