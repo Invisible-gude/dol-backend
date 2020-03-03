@@ -8,6 +8,7 @@ import routes from '../routes';
 
 
 
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 class DefaultLayout extends Component {
@@ -39,11 +40,11 @@ class DefaultLayout extends Component {
     return (
       <div className="app">
         <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+        <Sider >
           <div className="logo" />
           
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="0">
+            <Menu.Item key="0" style={{height:100}}>
                 <img src={logo} alt="Ravel Soft Logo" style={{width:100}}/>
             </Menu.Item>
             <Menu.Item key="1">
@@ -54,15 +55,17 @@ class DefaultLayout extends Component {
             </Menu.Item>
             <Menu.Item key="2">
               <Link to='/employee'>
-                <Icon type="pie-chart" />
+                <Icon type="user" />
                 <span>Employee</span>
               </Link>
             </Menu.Item>
+          
             <SubMenu
               key="sub3"
+              
               title={
                 <span>
-                Service                  
+                 <Icon type="pie-chart" /> Service                  
                 </span>
               }
             >
@@ -87,7 +90,7 @@ class DefaultLayout extends Component {
             </SubMenu>
             <Menu.Item key="12">
               <Link to='/process'>
-                <Icon type="pie-chart" />
+              <Icon type="pie-chart" />
                 <span>Process</span>
               </Link>
             </Menu.Item>
@@ -99,7 +102,7 @@ class DefaultLayout extends Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} >{user_login != null ? user_login.employee_name + '  ' + user_login.employee_lastname : null}</Header>
+          <Header style={{ float: 'right', color:'#fff' }} > ผู้ใช้งาน : {user_login != null ? user_login.employee_name + '  ' + user_login.employee_lastname : null}</Header>
           <Container fluid>
                   <Suspense fallback={null}>
                     <Switch>

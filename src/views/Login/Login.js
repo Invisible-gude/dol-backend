@@ -39,7 +39,7 @@ class Login extends Component {
         button: "Close",
       });
     } else {
-      arr['employee_username'] = 'admin';
+      arr['employee_username'] = employee_username;
       arr['employee_password'] = employee_password;
       const user_login = await user_model.getLogin(arr);
       if (user_login) {

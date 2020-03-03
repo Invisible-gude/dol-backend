@@ -132,7 +132,7 @@ class ServiceView extends Component {
           <Col>
             <Card>
               <CardHeader>
-                <p>จัดการพนักงาน / Employee Management</p>
+                <p>จัดการบริการ / Service Management</p>
                 <br/>
                 <NavLink exact to={`/service/insert/`} style={{ width: '100%' }}>
                 <Button icon="plus" type="primary">Add</Button>

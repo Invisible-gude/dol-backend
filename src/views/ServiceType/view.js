@@ -131,7 +131,7 @@ class ServiceTypeView extends Component {
           <Col>
             <Card>
               <CardHeader>
-                <p>จัดการพนักงาน / Employee Management</p>
+                <p>จัดการหัวเรื่อง / Service Type Management</p>
                 <br/>
                 <NavLink exact to={`/servicetype/insert/`} style={{ width: '100%' }}>
                 <Button icon="plus" type="primary">Add</Button>
