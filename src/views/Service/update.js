@@ -115,7 +115,7 @@ class ServiceUpdte extends Component {
               <Card>
                 <Form onSubmit={this.handleSubmit} id="myForm">
                   <CardHeader>
-                    แก้ไขประเภทงาน / Edit Service Group
+                    แก้ไขบริการ / Edit Service
                     </CardHeader>
                   <CardBody>
                     <FormGroup row>

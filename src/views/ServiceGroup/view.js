@@ -122,7 +122,7 @@ class ServiceGroupView extends Component {
           <Col>
             <Card>
               <CardHeader>
-                <p>จัดการพนักงาน / Employee Management</p>
+                <p>จัดการประเภทงาน / Service Group Management</p>
                 <br/>
                 <NavLink exact to={`/servicegroup/insert/`} style={{ width: '100%' }}>
                 <Button icon="plus" type="primary">Add</Button>

@@ -180,7 +180,7 @@ class EmployeeInsert extends Component {
             <Card>
               <Form onSubmit={this.handleSubmit} id="myForm">
                 <CardHeader>
-                  เพิ่มลูกค้า / Add Customer
+                  เพิ่มพนักงาน / Add Employee
                   </CardHeader>
                 <CardBody>
                   <FormGroup row>

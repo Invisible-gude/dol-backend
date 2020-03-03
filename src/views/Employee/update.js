@@ -104,7 +104,7 @@ class EmployeeUpdate extends Component {
               <Card>
                 <Form onSubmit={this.handleSubmit} id="myForm">
                   <CardHeader>
-                    เพิ่มลูกค้า / Add Customer
+                    แก้ไขพนักงาน / Edit Employee
                     </CardHeader>
                   <CardBody>
                     <FormGroup row>

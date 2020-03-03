@@ -134,17 +134,6 @@ class CustomerView extends Component {
         )
     },    
       {
-        title: 'นามสกุล',
-        dataIndex: 'employee_lastname',
-        key: 'employee_lastname',
-        width: '25%',
-        render: (text, record, index) =>(
-          <span key={index}>
-         {text}
-      </span>
-        )
-    },  
-      {
         title: 'แผนก',
         dataIndex: 'department_name',
         key: 'department_name',
