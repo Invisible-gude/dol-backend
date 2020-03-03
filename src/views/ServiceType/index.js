@@ -7,7 +7,7 @@ const ServiceTypeView = React.lazy(() => import('./view'));
 const ServiceTypeInsert = React.lazy(() => import('./insert'));
 const ServiceTypeUpdate = React.lazy(() => import('./update'));
 
-class EmployeeMain extends Component {
+class ServiceTypeMain extends Component {
 
   render() {
     return (
@@ -25,4 +25,4 @@ class EmployeeMain extends Component {
 }
 
 
-export default (EmployeeMain);
+export default (ServiceTypeMain);
