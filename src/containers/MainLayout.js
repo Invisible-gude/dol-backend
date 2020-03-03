@@ -59,7 +59,12 @@ class DefaultLayout extends Component {
                 <span>Employee</span>
               </Link>
             </Menu.Item>
-          
+            <Menu.Item key="3">
+              <Link to='/process'>
+                <Icon type="pie-chart" />
+                <span>Process</span>
+              </Link>
+            </Menu.Item>
             <SubMenu
               key="sub3"
               
@@ -88,12 +93,12 @@ class DefaultLayout extends Component {
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="12">
+            {/* <Menu.Item key="12">
               <Link to='/process'>
               <Icon type="pie-chart" />
                 <span>Process</span>
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="13">
               <Icon type="file" />
               <span onClick={e => this.onLogout(e)}>Logout</span>
