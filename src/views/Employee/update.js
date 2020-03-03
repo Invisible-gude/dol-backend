@@ -43,6 +43,7 @@ class EmployeeUpdate extends Component {
     const department = await department_model.getDepartmentBy();
     this.setState({
       department: department.data,
+      select_value:employee.department_id
     })
   }
 
@@ -54,6 +55,7 @@ class EmployeeUpdate extends Component {
     var employee_lastname = document.getElementById("employee_lastname").value;
     var employee_email = document.getElementById("employee_email").value;
     var employee_tel = document.getElementById("employee_tel").value;
+    var department_id = this.state.select_value;
     if (employee_name == '') {
       swal({
         title: "Warning!",
@@ -76,6 +78,7 @@ class EmployeeUpdate extends Component {
       arr['employee_lastname'] = employee_lastname;
       arr['employee_email'] = employee_email;
       arr['employee_tel'] = employee_tel;
+      arr['department_id'] = department_id;
       
       const employee = await employee_model.updateEmployeeByEmployeeCode(arr);
       console.log('image',employee);
