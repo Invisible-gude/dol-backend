@@ -34,7 +34,7 @@ class EmployeeUpdate extends Component {
     const emp_id = employee_id;
     const employee_bycode = await employee_model.getEmployeeByEmployeeCode({ employee_id: emp_id });
     let employee = employee_bycode.data[0]
-    // console.log("employee",employee)
+    console.log("employee",employee)
     document.getElementById("employee_id").value = employee.employee_id
     document.getElementById("employee_name").value = employee.employee_name;
     document.getElementById("employee_lastname").value = employee.employee_lastname;
@@ -154,7 +154,7 @@ class EmployeeUpdate extends Component {
                     </FormGroup>
                   </CardBody>
                   <CardFooter>
-                    <Link to="/employee"><Button type="buttom" size="sm" > Back </Button></Link>
+                    <Link to="/user"><Button type="buttom" size="sm" > Back </Button></Link>
                     {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                     <Button type="submit" size="sm" color="primary">Save</Button>
                   </CardFooter>

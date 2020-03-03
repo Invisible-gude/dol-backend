@@ -3,13 +3,13 @@ import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
-import UserModel from '../../models/UserModel';
+import ServiceTypeModel from '../../models/ServiceTypeModel';
 import { Table } from 'antd';
 
-var user_model = new UserModel;
+var servicetype_model = new ServiceTypeModel;
 
 
-class CustomerView extends Component {
+class ServiceTypeView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,18 +18,18 @@ class CustomerView extends Component {
   }
 
   async componentDidMount() {
-    const employee_list = await user_model.getEmployeeBy();
-    // console.log("customer_list ===",employee_list);
+    const employee_list = await servicetype_model.getEmployeeBy();
+    console.log("customer_list ===",employee_list);
     
     this.setState({
         employee_list : employee_list.data,
         employee_id : employee_list.data.map((item,index) => item.employee_id)
     })
-    // console.log("employee_id",this.state.employee_id)
+    console.log("employee_id",this.state.employee_id)
   }
 
   async onDelete(code) {
-    // console.log("code",code);
+    console.log("code",code);
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -39,7 +39,7 @@ class CustomerView extends Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-            user_model.deleteCustomerBycode(code).then((res) => {
+          servicetype_model.deleteCustomerBycode(code).then((res) => {
             if (res.query_result == true) {
               swal("Delete success!", {
                 icon: "success",
@@ -58,7 +58,7 @@ class CustomerView extends Component {
       });
   }
   async onDelete(employee_id) {
-    // console.log("code",employee_id);
+    console.log("code",employee_id);
     
     swal({
       title: "Are you sure?",
@@ -69,7 +69,7 @@ class CustomerView extends Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-          user_model.deleteEmployeeByEmployeeCode(employee_id).then((res) => {
+          servicetype_model.deleteEmployeeByEmployeeCode(employee_id).then((res) => {
             if (res.query_result == true) {
               swal("Delete success!", {
                 icon: "success",
@@ -90,20 +90,20 @@ class CustomerView extends Component {
 
   render() {
     const columns = [
-      // {
-      //     title: '#',
-      //     dataIndex: 'key',
-      //     key: 'key',
-      //     width: '10%',
-      //     render: (text, record, index) => (
-      //         <span key={index}>
-      //             {index + 1}
-      //         </span>
-      //     )
-      // },
+      {
+          title: '#',
+          dataIndex: 'key',
+          key: 'key',
+          width: '10%',
+          render: (text, record, index) => (
+              <span key={index}>
+                  {index + 1}
+              </span>
+          )
+      },
       {
           title: 'ชื่อ',
-          dataIndex: 'employee_name',
+          dataIndex:  'employee_name',
           key: 'employee_name',
           width: '25%',
           render: (text, record, index) =>(
@@ -122,17 +122,6 @@ class CustomerView extends Component {
       </span>
         )
     },    
-      {
-        title: 'นามสกุล',
-        dataIndex: 'employee_lastname',
-        key: 'employee_lastname',
-        width: '25%',
-        render: (text, record, index) =>(
-          <span key={index}>
-         {text}
-      </span>
-        )
-    },  
       {
         title: 'แผนก',
         dataIndex: 'department_name',
@@ -192,5 +181,5 @@ class CustomerView extends Component {
 }
 
 
-export default CustomerView;
+export default ServiceTypeView;
 

@@ -112,7 +112,7 @@ class EmployeeInsert extends Component {
     arr['employee_password'] = employee_password;
 
     const employee = await employee_model.insertEmployee(arr);
-    // console.log('employee ', arr);
+    console.log('employee ', arr);
     if (employee.query_result == true) {
       swal("Save success!", {
         icon: "success",
@@ -248,7 +248,7 @@ class EmployeeInsert extends Component {
                   </FormGroup>
                 </CardBody>
                 <CardFooter>
-                  <Link to="/employee"><Button type="buttom" size="sm" > Back </Button></Link>
+                  <Link to="/user"><Button type="buttom" size="sm" > Back </Button></Link>
                   {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                   <Button type="submit" size="sm" color="primary">Save</Button>
                 </CardFooter>
