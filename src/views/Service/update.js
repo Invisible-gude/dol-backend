@@ -34,7 +34,6 @@ class ServiceUpdte extends Component {
     const service_id = this.props.match.params.service_id;
     const service_bycode = await service_model.getServiceByCode({ service_id: service_id });
     let service = service_bycode.data[0];
-    
     const servicetype = await servicetype_model.getServiceTypeBy();
     this.setState({
       servicetype: servicetype.data,
@@ -43,13 +42,15 @@ class ServiceUpdte extends Component {
     })
     document.getElementById("service_name").value = service.service_name;
     document.getElementById("service_type_id").value = service.service_type_id;
+    document.getElementById("service_id").value = service.service_id;
   }
 
   async handleSubmit(event) {
     event.preventDefault();
     var arr = {};
     var service_name = document.getElementById("service_name").value;
-    var service_type_id = document.getElementById("service_type_id").value;
+    var service_id = document.getElementById("service_id").value;
+    var service_type_id =  this.state.select_value;
     if (service_name == '') {
       swal({
         title: "Warning!",
@@ -59,15 +60,16 @@ class ServiceUpdte extends Component {
       });
     }else {
       arr['service_name'] = service_name;      
-      arr['service_type_id'] = service_type_id;     
+      arr['service_type_id'] = service_type_id;   
+      arr['service_id'] = service_id;       
       console.log("arr",arr);
        
-      const servicetype = await servicetype_model.updateServiceTypeByCode(arr);
-      if (servicetype.query_result == true) {
+      const service = await service_model.updateServiceByCode(arr);
+      if (service.query_result == true) {
         swal("Save success!", {
           icon: "success",
         });
-        this.props.history.push('/servicetype');
+        this.props.history.push('/service');
       } else {
         window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
       }
@@ -122,7 +124,7 @@ class ServiceUpdte extends Component {
                           <Label>รหัสบริการ/ Service ID</Label>
                           <p>
                           <font color="#F00">
-                              <b id="service_type_id" name="service_type_id" color="#F00">{this.state.service_select}</b>
+                              <b id="service_id" name="service_id" color="#F00" >{this.state.service_select}</b>
                             </font>
                           </p>
                         </FormGroup>
@@ -142,9 +144,9 @@ class ServiceUpdte extends Component {
                     </Col>    
                     <Col lg="3">
                         <FormGroup>
-                        <Label>หัวเรื่อง / Service Group <font color="#F00"><b>*</b></font> </Label>
+                        <Label>หัวเรื่อง / Service Type <font color="#F00"><b>*</b></font> </Label>
                         <Select placeholder="กรุณาเลือกประเภท"
-                          id="service_group_id"
+                          id="service_type_id"
                           onChange={this._onChange.bind(this)}
                           value={this.state.select_value}>
                           {servicetype_select}

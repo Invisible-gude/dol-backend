@@ -51,6 +51,7 @@ class ServiceGroupUpdte extends Component {
     event.preventDefault();
     var arr = {};
     var service_type_name = document.getElementById("service_type_name").value;
+    var service_type_id = document.getElementById("service_type_id").value;
     var service_group_id = this.state.select_value;
     if (service_type_name == '') {
       swal({
@@ -62,6 +63,7 @@ class ServiceGroupUpdte extends Component {
     }else {
       arr['service_type_name'] = service_type_name;      
       arr['service_group_id'] = service_group_id;     
+      arr['service_type_id'] = service_type_id;   
       console.log("arr",arr);
        
       const servicetype = await servicetype_model.updateServiceTypeByCode(arr);

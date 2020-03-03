@@ -69,7 +69,7 @@ export default class ServiceModel {
             });
     }
     async updateServiceByCode(data) {
-        return fetch(GOBALS.URL + 'service/updateServiceByCode', {
+        return fetch(GOBALS.URL + 'service/updateServiceByServiceCode', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
