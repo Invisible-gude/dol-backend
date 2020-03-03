@@ -132,7 +132,7 @@ class ProcessView extends Component {
                 <p>จัดการขั้นตอน / Process Management</p>
                 <br/>
                 <NavLink exact to={`/process/insert/`} style={{ width: '100%' }}>
-                <Button icon="plus" type="primary">Add</Button>
+                <Button color="success" icon="plus" type="primary">Add</Button>
                 </NavLink>
 
               </CardHeader>
