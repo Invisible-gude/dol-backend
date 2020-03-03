@@ -3,31 +3,32 @@ import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
-import DepartmentModel from '../../models/DepartmentModel';
-import { Table} from 'antd';
+import ProcessModel from '../../models/ProcessModel';
+import { Table } from 'antd';
 
 
-var department_model = new DepartmentModel;
+var process_model = new ProcessModel;
 
 
-class DepartmentView extends Component {
+class ProcessView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      department_list: []
+      process_list: []
     };
   }
 
   async componentDidMount() {
-    const department_list = await department_model.getDepartmentBy();
-    console.log("department_list ===",department_list);
+    const process_list = await process_model.getProcessBy();
+    console.log("process_list ===",process_list);
     
     this.setState({
-        department_list: department_list.data
+        process_list: process_list.data
     })
   }
+
   async onDelete(code) {
-    console.log(code);
+    console.log("code",code);
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -37,7 +38,7 @@ class DepartmentView extends Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-            department_model.deleteDepartmentByDepartmentCode(code).then((res) => {
+            process_model.deleteProcessByProcessCode(code).then((res) => {
             if (res.query_result == true) {
               swal("Delete success!", {
                 icon: "success",
@@ -63,16 +64,16 @@ class DepartmentView extends Component {
       //     dataIndex: 'key',
       //     key: 'key',
       //     width: '10%',
-      //     render: (text, record, index) => (
+      //     render: (text, record, index,current) => (
       //         <span key={index}>
-      //             {index + 1}
+      //             {index + 1 }
       //         </span>
       //     )
       // },
       {
-          title: 'รหัสแผนก',
-          dataIndex: 'department_id',
-          key: 'department_id',
+          title: 'รหัสขั้นตอน',
+          dataIndex: 'process_id',
+          key: 'process_id',
           width: '25%',
           render: (text, record, index) =>(
             <span key={index}>
@@ -81,52 +82,63 @@ class DepartmentView extends Component {
           )
       },  
       {
-        title: 'ชื่อแผนก',
-        dataIndex: 'department_name',
-        key: 'department_name',
+        title: 'ชื่อขั้นตอน',
+        dataIndex: 'process_name',
+        key: 'process_name',
         width: '25%',
         render: (text, record, index) =>(
           <span key={index}>
          {text}
       </span>
         )
-    },      
-    {
+      },   
+      {
+        title: 'แผนก',
+        dataIndex: 'department_name',
+        key: 'department_name',
+        width: '25%',
+        render: (text, record, index) =>(
+          <span key={index}>
+          {text}
+      </span>
+        )
+      },         
+      {
       title: '',
-      dataIndex: 'department_id',
-      key: 'department_id',
+      dataIndex: 'process_id',
+      key: 'process_id',
       align: 'center',
       width: '20%',
       render: (text, record) =>
       <span>        
-        <NavLink exact to={`/department/update/` + text} style={{ color: '#337ab7' }}>
+        <NavLink exact to={`/process/update/` + text} style={{ color: '#337ab7' }}>
           <i className="fa fa-pencil-square-o" ></i>
         </NavLink>
         <Button type="button" size="sm" color="link" style={{ color: 'red' }}
           onClick={() => this.onDelete(text)}  >
           <i className="fa fa-times" aria-hidden="true"></i>
         </Button>
-      </span>
-    },
-  ];
+          </span>
+      },
+    ];
 
-    const { department_list } = this.state;
+    const { process_list } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
           <Col>
             <Card>
               <CardHeader>
-                <p>จัดการแผนก / Department Management</p>
+                <p>จัดการขั้นตอน / Process Management</p>
                 <br/>
-                <NavLink exact to={`/department/insert/`} style={{ width: '100%' }}>
+                <NavLink exact to={`/process/insert/`} style={{ width: '100%' }}>
                 <Button icon="plus" type="primary">Add</Button>
                 </NavLink>
 
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
-              dataSource={this.state.department_list} 
+              dataSource={this.state.process_list}
               />
               </CardBody>
             </Card>
@@ -138,5 +150,5 @@ class DepartmentView extends Component {
 }
 
 
-export default DepartmentView;
+export default ProcessView;
 

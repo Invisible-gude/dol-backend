@@ -59,6 +59,12 @@ class DefaultLayout extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
+              <Link to='/process'>
+                <Icon type="pie-chart" />
+                <span>Process</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="4">
               <Icon type="desktop" />
               <span>Option 2</span>
             </Menu.Item>

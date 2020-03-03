@@ -90,19 +90,19 @@ class CustomerView extends Component {
 
   render() {
     const columns = [
+      // {
+      //     title: '#',
+      //     dataIndex: 'key',
+      //     key: 'key',
+      //     width: '10%',
+      //     render: (text, record, index) => (
+      //         <span key={index}>
+      //             {index + 1}
+      //         </span>
+      //     )
+      // },
       {
-          title: '#',
-          dataIndex: 'key',
-          key: 'key',
-          width: '10%',
-          render: (text, record, index) => (
-              <span key={index}>
-                  {index + 1}
-              </span>
-          )
-      },
-      {
-          title: 'ชื่อ - สกุล',
+          title: 'ชื่อ',
           dataIndex: 'employee_name',
           key: 'employee_name',
           width: '25%',
@@ -112,6 +112,17 @@ class CustomerView extends Component {
         </span>
           )
       },  
+      {
+        title: 'นามสกุล',
+        dataIndex: 'employee_lastname',
+        key: 'employee_lastname',
+        width: '25%',
+        render: (text, record, index) =>(
+          <span key={index}>
+         {text}
+      </span>
+        )
+    },  
       {
         title: 'แผนก',
         dataIndex: 'department_name',
