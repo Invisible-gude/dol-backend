@@ -90,7 +90,6 @@ class EmployeeUpdate extends Component {
     }
   }
   _onChange(value) {
-    //console.log(value) - just to see what we recive from <Select />
     this.setState({ select_value: value });
   }
 

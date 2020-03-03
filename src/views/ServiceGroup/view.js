@@ -28,35 +28,7 @@ class ServiceGroupView extends Component {
     // console.log("employee_id",this.state.servicegroup_id)
   }
 
-  async onDelete(code) {
-    // console.log("code",code);
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure you want to delete this item?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          servicegroup_model.deleteCustomerBycode(code).then((res) => {
-            if (res.query_result == true) {
-              swal("Delete success!", {
-                icon: "success",
-              });
-              this.componentDidMount()
-            } else {
-              swal({
-                title: "Error!",
-                text: " Error Delete ",
-                icon: "error",
-                button: "Close",
-              });
-            }
-          })
-        }
-      });
-  }
+
   async onDelete(service_group_id) {
     console.log("code",service_group_id);
     
@@ -101,6 +73,17 @@ class ServiceGroupView extends Component {
               </span>
           )
       },
+      {
+        title: 'รหัส',
+        dataIndex:  'service_group_id',
+        key: 'service_group_id',
+        width: '25%',
+        render: (text, record, index) =>(
+          <span key={index}>
+         {text}
+      </span>
+        )
+    },
       {
           title: 'ชื่อ',
           dataIndex:  'service_group_name',

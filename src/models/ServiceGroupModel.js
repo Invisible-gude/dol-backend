@@ -1,5 +1,5 @@
 import GOBALS from '../GOBALS';
-export default class DepartmentModel {
+export default class ServiceGroupModel {
 
     constructor() {
     }

@@ -1,11 +1,11 @@
 import GOBALS from '../GOBALS';
-export default class ServiceTypeModel {
+export default class ServiceModel {
 
     constructor() {
     }
  
-    async getServiceTypeBy() {
-        return fetch(GOBALS.URL + 'servicetype/getServiceTypeBy', {
+    async getServiceBy() {
+        return fetch(GOBALS.URL + 'service/getServiceBy', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -20,8 +20,8 @@ export default class ServiceTypeModel {
                 console.error(error);
             });
     }
-    async checkServiceTypename(data) {
-        return fetch(GOBALS.URL + 'servicetype/checkServiceTypename', {
+    async checkServicename(data) {
+        return fetch(GOBALS.URL + 'service/checkServicename', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -35,8 +35,8 @@ export default class ServiceTypeModel {
                 console.error(error);
             });
     }
-    async insertServiceType(data) {
-        return fetch(GOBALS.URL + 'servicetype/insertServiceType', {
+    async insertService(data) {
+        return fetch(GOBALS.URL + 'service/insertService', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -50,15 +50,15 @@ export default class ServiceTypeModel {
                 console.error(error);
             });
     }
-    async deleteServiceTypeByCode(code) {
-        return fetch(GOBALS.URL + 'servicetype/deleteServiceTypeByCode', {
+    async deleteServiceByCode(code) {
+        return fetch(GOBALS.URL + 'service/deleteServiceByCode', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                service_type_id: code
+                service_id: code
             })
         }).then((response) => response.json())
             .then((responseJson) => {
@@ -68,8 +68,8 @@ export default class ServiceTypeModel {
                 console.error(error);
             });
     }
-    async updateServiceTypeByCode(data) {
-        return fetch(GOBALS.URL + 'servicetype/updateServiceTypeByCode', {
+    async updateServiceByCode(data) {
+        return fetch(GOBALS.URL + 'service/updateServiceByCode', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -83,8 +83,8 @@ export default class ServiceTypeModel {
                 console.error(error);
             });
     }
-    async getServiceTypeByCode(data) {
-        return fetch(GOBALS.URL + 'servicetype/getServiceTypeByCode', {
+    async getServiceByCode(data) {
+        return fetch(GOBALS.URL + 'service/getServiceByCode', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

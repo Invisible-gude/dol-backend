@@ -3,62 +3,34 @@ import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
-import UserModel from '../../models/UserModel';
+import ServiceModel from '../../models/ServiceModel';
 import { Table } from 'antd';
 
-var user_model = new UserModel;
+var service_model = new ServiceModel;
 
 
-class CustomerView extends Component {
+class ServiceView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      employee_list: []
+      service_list: []
     };
   }
 
   async componentDidMount() {
-    const employee_list = await user_model.getEmployeeBy();
-    // console.log("customer_list ===",employee_list);
+    const service_list = await service_model.getServiceBy();
+    console.log("service_list ===",service_list);
     
     this.setState({
-        employee_list : employee_list.data,
-        employee_id : employee_list.data.map((item,index) => item.employee_id)
+        service_list : service_list.data,
+        service_id : service_list.data.map((item,index) => item.service_id)
     })
-    // console.log("employee_id",this.state.employee_id)
+    console.log("service_id",this.state.service_id)
   }
 
-  async onDelete(code) {
-    // console.log("code",code);
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure you want to delete this item?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-            user_model.deleteEmployeeByEmployeeCode(code).then((res) => {
-            if (res.query_result == true) {
-              swal("Delete success!", {
-                icon: "success",
-              });
-              this.componentDidMount()
-            } else {
-              swal({
-                title: "Error!",
-                text: " Error Delete ",
-                icon: "error",
-                button: "Close",
-              });
-            }
-          })
-        }
-      });
-  }
-  async onDelete(employee_id) {
-    // console.log("code",employee_id);
+ 
+  async onDelete(service_id) {
+    console.log("code",service_id);
     
     swal({
       title: "Are you sure?",
@@ -69,7 +41,7 @@ class CustomerView extends Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-          user_model.deleteEmployeeByEmployeeCode(employee_id).then((res) => {
+          service_model.deleteServiceByCode(service_id).then((res) => {
             if (res.query_result == true) {
               swal("Delete success!", {
                 icon: "success",
@@ -103,9 +75,9 @@ class CustomerView extends Component {
       },
       {
         title: 'รหัส',
-        dataIndex:  'employee_id',
-        key: 'employee_id',
-        width: '10%',
+        dataIndex:  'service_id',
+        key: 'service_id',
+        width: '25%',
         render: (text, record, index) =>(
           <span key={index}>
          {text}
@@ -114,29 +86,19 @@ class CustomerView extends Component {
     },
       {
           title: 'ชื่อ',
-          dataIndex:  'employee_name',
-          key: 'employee_name',
+          dataIndex:  'service_name',
+          key: 'service_name',
           width: '25%',
           render: (text, record, index) =>(
             <span key={index}>
            {text}
         </span>
           )
-      },{
-        title: 'นามสกุล',
-        dataIndex:  'employee_lastname',
-        key: 'employee_lastname',
-        width: '25%',
-        render: (text, record, index) =>(
-          <span key={index}>
-         {text}
-      </span>
-        )
-    },    
+      },    
       {
-        title: 'แผนก',
-        dataIndex: 'department_name',
-        key: 'department_name',
+        title: 'หัวเรื่อง',
+        dataIndex: 'service_type_name',
+        key: 'service_type_name',
         width: '25%',
         render: (text, record, index) =>(
           <span key={index}>
@@ -146,13 +108,13 @@ class CustomerView extends Component {
     },      
       {
           title: '',
-          dataIndex: 'employee_id',
-          key: 'employee_id',
+          dataIndex: 'service_id',
+          key: 'service_id',
           align: 'center',
           width: '20%',
           render: (text, record) =>
           <span>        
-                 <NavLink exact to={`/employee/update/` + text} style={{ color: '#337ab7' }}>
+                 <NavLink exact to={`/service/update/` + text} style={{ color: '#337ab7' }}>
                     <i className="fa fa-pencil-square-o" ></i>
                 </NavLink>
                 <Button type="button" size="sm" color="link" style={{ color: 'red' }}
@@ -172,14 +134,14 @@ class CustomerView extends Component {
               <CardHeader>
                 <p>จัดการพนักงาน / Employee Management</p>
                 <br/>
-                <NavLink exact to={`/employee/insert/`} style={{ width: '100%' }}>
+                <NavLink exact to={`/service/insert/`} style={{ width: '100%' }}>
                 <Button icon="plus" type="primary">Add</Button>
                 </NavLink>
 
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
-              dataSource={this.state.employee_list}
+              dataSource={this.state.service_list}
               pagination={{ pageSize: 5 }}  
               />
               </CardBody>
@@ -192,5 +154,5 @@ class CustomerView extends Component {
 }
 
 
-export default CustomerView;
+export default ServiceView;
 

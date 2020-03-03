@@ -11,49 +11,46 @@ import {
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
-import ServiceGroupModel from '../../models/ServiceGroupModel';
+import ServiceModel from '../../models/ServiceModel';
 import { Select } from 'antd'
 
 var servicetype_model = new ServiceTypeModel;
-var servicegroup_model = new ServiceGroupModel;
+var service_model = new ServiceModel;
 const { Option } = Select;
 
-class ServiceGroupUpdte extends Component {
+class ServiceUpdte extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      servicegroup: [],
+      servicetype: [],
       select_value: "",
-        upload_url: 'servicetype',
+        upload_url: 'service',
     };
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async componentDidMount() {
-    const service_type_id = this.props.match.params.service_type_id;
-    const service_type_bycode = await servicetype_model.getServiceTypeByCode({ service_type_id: service_type_id });
-    let servicetype = service_type_bycode.data[0];
-
-    const servicegroup = await servicegroup_model.getServiceGroupBy();
+    const service_id = this.props.match.params.service_id;
+    const service_bycode = await service_model.getServiceByCode({ service_id: service_id });
+    let service = service_bycode.data[0];
+    
+    const servicetype = await servicetype_model.getServiceTypeBy();
     this.setState({
-      servicegroup: servicegroup.data,
-      select_value: servicetype.service_group_id,
-      servicetype_select :  service_type_id
+      servicetype: servicetype.data,
+      select_value: service.service_type_id,
+      service_select :  service_id
     })
-    console.log("employee",servicetype)
-    document.getElementById("service_type_id").value = servicetype.service_type_id
-    document.getElementById("service_type_name").value = servicetype.service_type_name;
-    document.getElementById("service_group_id").value = servicetype.service_group_id;
+    document.getElementById("service_name").value = service.service_name;
+    document.getElementById("service_type_id").value = service.service_type_id;
   }
 
   async handleSubmit(event) {
     event.preventDefault();
     var arr = {};
+    var service_name = document.getElementById("service_name").value;
     var service_type_id = document.getElementById("service_type_id").value;
-    var service_type_name = document.getElementById("service_type_name").value;
-    var service_group_id = document.getElementById("service_group_id").value;
-    if (service_type_name == '') {
+    if (service_name == '') {
       swal({
         title: "Warning!",
         text: "Please Enter Service Group Name ",
@@ -61,9 +58,8 @@ class ServiceGroupUpdte extends Component {
         button: "Close",
       });
     }else {
-      arr['service_type_id'] = service_type_id;      
-      arr['service_type_name'] = service_type_name;      
-      arr['service_group_id'] = service_group_id;     
+      arr['service_name'] = service_name;      
+      arr['service_type_id'] = service_type_id;     
       console.log("arr",arr);
        
       const servicetype = await servicetype_model.updateServiceTypeByCode(arr);
@@ -106,8 +102,8 @@ class ServiceGroupUpdte extends Component {
     this.setState({ select_value: value });
   }
   render() {
-    let servicegroup_select = this.state.servicegroup.map((item, index) => (
-      <Option key={index} value={item.service_group_id}>{item.service_group_name}</Option>
+    let servicetype_select = this.state.servicetype.map((item, index) => (
+      <Option key={index} value={item.service_type_id}>{item.service_type_name}</Option>
     ))
 
     return (
@@ -123,42 +119,42 @@ class ServiceGroupUpdte extends Component {
                     <FormGroup row>
                       <Col lg="3">
                         <FormGroup>
-                          <Label>รหัสหัวเรื่อง / Service Type ID</Label>
+                          <Label>รหัสบริการ/ Service ID</Label>
                           <p>
                           <font color="#F00">
-                              <b id="service_type_id" name="service_type_id" color="#F00">{this.state.servicetype_select}</b>
+                              <b id="service_type_id" name="service_type_id" color="#F00">{this.state.service_select}</b>
                             </font>
                           </p>
                         </FormGroup>
                       </Col>        
                       <Col lg="3">
                         <FormGroup>
-                          <Label>ชื่อหัวเรื่อง / Name <font color="#F00"><b>*</b></font></Label>
-                          <Input type="text" id="service_type_name" name="service_type_name" className="form-control"
+                          <Label>ชื่อบริการ / Service Name <font color="#F00"><b>*</b></font></Label>
+                          <Input type="text" id="service_name" name="service_name" className="form-control"
                           valid={this.state.servicetype_name_validate == "VALID"}
                           invalid={this.state.servicetype_name_validate == "INVALID-FORMAT" || this.state.servicetype_name_validate == "INVALID-DUPLICATE"}
                           onChange={(e) => { this._onAdminUserChange(e) }}
                         />
                         <FormFeedback valid >สามารถใช้ชื่อนี้ได้</FormFeedback>
                         <FormFeedback invalid >{this.state.servicetype_name_validate_text}</FormFeedback> 
-                          <p className="help-block">Example : งานแล้วเสร็จวันเดียว</p>
+                          <p className="help-block">Example : ขายฝาก</p>
                         </FormGroup>
                     </Col>    
                     <Col lg="3">
                         <FormGroup>
-                        <Label>ประเภทงาน / Service Group <font color="#F00"><b>*</b></font> </Label>
+                        <Label>หัวเรื่อง / Service Group <font color="#F00"><b>*</b></font> </Label>
                         <Select placeholder="กรุณาเลือกประเภท"
                           id="service_group_id"
                           onChange={this._onChange.bind(this)}
                           value={this.state.select_value}>
-                          {servicegroup_select}
+                          {servicetype_select}
                         </Select>
                         </FormGroup>
                       </Col>              
                     </FormGroup>               
                   </CardBody>
                   <CardFooter>
-                    <Link to="/servicegroup"><Button type="buttom" size="sm" > Back </Button></Link>
+                    <Link to="/service"><Button type="buttom" size="sm" > Back </Button></Link>
                     {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                     <Button type="submit" size="sm" color="primary">Save</Button>
                   </CardFooter>
@@ -172,5 +168,5 @@ class ServiceGroupUpdte extends Component {
 }
 
 
-export default ServiceGroupUpdte;
+export default ServiceUpdte;
 

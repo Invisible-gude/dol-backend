@@ -85,10 +85,6 @@ class DefaultLayout extends Component {
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="3">
-              <Icon type="desktop" />
-              <span>Option 2</span>
-            </Menu.Item>
             <Menu.Item key="12">
               <Icon type="file" />
               <span onClick={e => this.onLogout(e)}>Logout</span>
