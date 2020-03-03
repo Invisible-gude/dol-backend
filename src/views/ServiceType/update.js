@@ -50,9 +50,8 @@ class ServiceGroupUpdte extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     var arr = {};
-    var service_type_id = document.getElementById("service_type_id").value;
     var service_type_name = document.getElementById("service_type_name").value;
-    var service_group_id = document.getElementById("service_group_id").value;
+    var service_group_id = this.state.select_value;
     if (service_type_name == '') {
       swal({
         title: "Warning!",
@@ -61,7 +60,6 @@ class ServiceGroupUpdte extends Component {
         button: "Close",
       });
     }else {
-      arr['service_type_id'] = service_type_id;      
       arr['service_type_name'] = service_type_name;      
       arr['service_group_id'] = service_group_id;     
       console.log("arr",arr);
