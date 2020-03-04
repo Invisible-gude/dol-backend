@@ -50,10 +50,12 @@ class ServiceTypeInsert extends Component {
 
   async componentDidMount() {
     console.log("componentDidMount");
+    const servicetype = await servicetype_model.getServiceTypeBy();
     const servicegroup = await servicegroup_model.getServiceGroupBy();
     const process = await process_model.getProcessBy();
     console.log("process1",process);
     this.setState({
+      servicetype_id: servicetype.data.map(item => item.service_type_id),
       servicegroup: servicegroup.data,
       process: process.data,
       process1: process.data.map(item => item.process_name),
@@ -68,6 +70,7 @@ class ServiceTypeInsert extends Component {
     event.preventDefault();
     var arr = {};
     var arr2 = {};
+
     var service_type_name = document.getElementById("service_type_name").value;
     var service_group_id = this.state.select_value;
     var process_id = this.state.checkedValues;;

@@ -62,17 +62,7 @@ class ServiceView extends Component {
 
   render() {
     const columns = [
-      {
-          title: '#',
-          dataIndex: 'key',
-          key: 'key',
-          width: '10%',
-          render: (text, record, index) => (
-              <span key={index}>
-                  {index + 1}
-              </span>
-          )
-      },
+   
       {
         title: 'รหัส',
         dataIndex:  'service_id',
