@@ -34,8 +34,10 @@ class ServiceTypeDetail extends Component {
       servicetype_list: [],
       service: [],
       service_type_id:[],
+      servicetype_id:'',
       select_value: "",
     };
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async componentDidMount() {
@@ -46,42 +48,57 @@ class ServiceTypeDetail extends Component {
     console.log("service_type_id",service_type_id);
     const service_type_bycode = await serviceProcess_model.getServiceProcessByCode({ service_type_id: service_type_id });
     const service_bycode = await servicetype_model.getServiceByServiceTypeCode({ service_type_id: service_type_id });
+
     this.setState({
       process1: process.data,
       servicetype_list : service_type_bycode.data,
       service : service_bycode.data,
-      service_type_id: service_type_bycode.data.map(item => item)
-    })
+      servicetype_id: service_type_id,
+        })
+        console.log("service_type_id",this.state.servicetype_id);
+        
       }
 
-  async handleSubmit(event) {
-    event.preventDefault();
-      var arr = {};
-      var service_type_id = service_type_id;
-      var process_id = this.state.select_value;
-      
-
-      arr['service_type_id'] = service_type_id;
-      arr['process_id'] = process_id;
-
-      const serviceprocess = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id)
-
-      console.log('serviceprocess ', arr);
-      if (serviceprocess.query_result == true) {
-        swal("Save success!", {
-          icon: "success",
-        });
-        this.props.history.push('/servicetype/detail/'+this.state.service_type_id);
-      } else {
-        window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
+      async handleSubmit(event) {
+        event.preventDefault();
+            var arr = {};
+        var process_id = this.state.select_value;
+        var service_type_id = this.state.servicetype_id;
+        if (service_type_id == '') {
+          swal({
+            title: "Warning!",
+            text: "Please Enter Name ",
+            icon: "warning",
+            button: "Close",
+          });
+    
+        } else {
+          arr['process_id'] = process_id;
+          arr['service_type_id'] = service_type_id;
+    
+        const service = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id);
+        console.log('employee ', arr);
+        if (service.query_result == true) {
+          swal("Save success!", {
+            icon: "success",
+          });
+          this.componentDidMount()
+          // window.location.reload(true)
+          this.props.history.push('/servicetype/detail/'+service_type_id);
+        } else {
+          window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
+        }
       }
     }
-
-    _onChange(value) {
-      this.setState({ select_value : value });
+  _onChange(value) {
+        this.setState({ select_value: value });
     }
   
-  async onDelete(service_type_id) {
+    
+  
+  async onDelete(service_process_id) {
+    console.log("code",service_process_id);
+    
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -91,7 +108,7 @@ class ServiceTypeDetail extends Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-          servicetype_model.deleteServiceTypeByCode(service_type_id).then((res) => {
+          serviceProcess_model.deleteServiceProcessByCode(service_process_id).then((res) => {
             if (res.query_result == true) {
               swal("Delete success!", {
                 icon: "success",
@@ -136,8 +153,8 @@ class ServiceTypeDetail extends Component {
       },
       {
         title: '',
-        dataIndex: 'process_id',
-        key: 'process_id',
+        dataIndex: 'service_process_id',
+        key: 'service_process_id',
         align: 'center',
         width: '20%',
         render: (text, record) =>
