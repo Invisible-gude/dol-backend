@@ -12,31 +12,54 @@ import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import ServiceGroupModel from '../../models/ServiceGroupModel';
-import { Select } from 'antd'
+import ProcessModel from '../../models/ProcessModel';
+import ServiceProcessModel from '../../models/ServiceProcessModel';
+import { Select, Checkbox} from 'antd'
+
+const CheckboxGroup = Checkbox.Group;
 
 
 var servicetype_model = new ServiceTypeModel;
 var servicegroup_model = new ServiceGroupModel;
+var process_model = new ProcessModel;
+var serviceprocess_model = new ServiceProcessModel;
 
 const { Option } = Select;
-
+  
+// function onChange(checkedValues) {
+//   console.log('checked = ', checkedValues);
+  // this.setState({
+  //   checkedValues,
+  //   indeterminate: !!checkedValues.length && checkedValues.length < this.state.process1.length,
+  // });
+// }
 class ServiceTypeInsert extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
       servicegroup: [],
+      process: [],
       select_value: "",
+      indeterminate: true,
+      process_id:[]
     };
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   async componentDidMount() {
     console.log("componentDidMount");
     const servicegroup = await servicegroup_model.getServiceGroupBy();
+    const process = await process_model.getProcessBy();
+    console.log("process1",process);
     this.setState({
       servicegroup: servicegroup.data,
+      process: process.data,
+      process1: process.data.map(item => item.process_name),
+      processid: process.data.map(item => item.process_id),
     })
+    console.log("process2",this.state.process1);
   }
 
 
@@ -44,9 +67,14 @@ class ServiceTypeInsert extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     var arr = {};
+    var arr2 = {};
     var service_type_name = document.getElementById("service_type_name").value;
     var service_group_id = this.state.select_value;
-
+    var process_id = this.state.checkedValues;;
+    console.log("process_name",process_id);
+    
+    
+    
     if (service_type_name == '') {
       swal({
         title: "Warning!",
@@ -58,18 +86,30 @@ class ServiceTypeInsert extends Component {
     } else {
       arr['service_type_name'] = service_type_name;
       arr['service_group_id'] = service_group_id;
-
-    const servicetype = await servicetype_model.insertServiceType(arr);
-    console.log('employee ', arr);
-    if (servicetype.query_result == true) {
+      
+      const servicetype = await servicetype_model.insertServiceType(arr);
+      console.log('employee ', arr);
+      if (servicetype.query_result == true) {
+        swal("Save success!", {
+          icon: "success",
+        });
+        this.props.history.push('/servicetype');
+      } else {
+        window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
+      }
+    }
+    
+    arr2['process_id'] = process_id;
+    const serviceprocess =  serviceprocess_model.insertServiceProcess(arr2);
+    console.log('serviceprocess ', arr2);
+    if (serviceprocess.query_result == true) {
       swal("Save success!", {
         icon: "success",
       });
-      this.props.history.push('/servicetype');
+      this.props.history.push('/serviceprocess');
     } else {
       window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
     }
-  }
 }
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
@@ -99,10 +139,27 @@ _onAdminUserChange(event) {
   _onChange(value) {
     this.setState({ select_value: value });
   }
+
+  onChange(checkedValues) {
+    console.log('checked = ', checkedValues);
+    this.setState({
+      checkedValues,
+      indeterminate: !!checkedValues.length && checkedValues.length < this.state.processid.length,
+    });
+  }
+
   render() {
     let servicegroup_select = this.state.servicegroup.map((item, index) => (
       <Option key={index} value={item.service_group_id}>{item.service_group_name}</Option>
     ))
+    let process_select = this.state.process.map((item, index) => (
+      <Checkbox 
+       value={item.process_id}                          
+       onChange={this.onChange}
+      >{item.process_name}
+      </Checkbox>
+    ))
+
 
     return (
       <div className="animated fadeIn">
@@ -139,10 +196,25 @@ _onAdminUserChange(event) {
                         </Select>
                       </FormGroup>
                     </Col>
-                  </FormGroup>                
+                  </FormGroup> 
+                  <FormGroup row>
+                  <Col lg="10">
+                      <FormGroup>
+                        <Label>ประเภทงาน / Service Group <font color="#F00"><b>*</b></font> </Label>
+                         <CheckboxGroup
+                          id="process_id"
+                          onChange={this.onChange}
+                          // value={this.state.process_id} 
+                        >
+                          {process_select}
+                        </CheckboxGroup>                       
+                           
+                      </FormGroup>
+                    </Col>
+                  </FormGroup>               
                 </CardBody>
                 <CardFooter>
-                  <Link to="/user"><Button type="buttom" size="sm" > Back </Button></Link>
+                  <Link to="/servicetype"><Button type="buttom" size="sm" > Back </Button></Link>
                   {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                   <Button type="submit" size="sm" color="primary">Save</Button>
                 </CardFooter>

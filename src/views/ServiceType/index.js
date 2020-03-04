@@ -6,6 +6,7 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 const ServiceTypeView = React.lazy(() => import('./view'));
 const ServiceTypeInsert = React.lazy(() => import('./insert'));
 const ServiceTypeUpdate = React.lazy(() => import('./update'));
+const ServiceTypeDetail = React.lazy(() => import('./detail'));
 
 class ServiceTypeMain extends Component {
 
@@ -17,6 +18,7 @@ class ServiceTypeMain extends Component {
           <Route exact path="/servicetype" name="Login Page" render={props => <ServiceTypeView {...props} />} />
             <Route exact path="/servicetype/insert" name="Login Page" render={props => <ServiceTypeInsert {...props} />} />
             <Route exact path="/servicetype/update/:service_type_id" name="Login Page" render={props => <ServiceTypeUpdate {...props} />} />
+            <Route exact path="/servicetype/detail/:service_type_id" name="Login Page" render={props => <ServiceTypeDetail {...props} />} />
           </Switch>
         </React.Suspense>
       </HashRouter>

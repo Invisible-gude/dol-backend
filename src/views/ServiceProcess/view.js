@@ -4,9 +4,11 @@ import { NavLink } from 'react-router-dom';
 import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import ServiceProcessModel from '../../models/ServiceProcessModel';
+import ServiceTypeModel from '../../models/ServiceTypeModel';
 import { Table, Modal} from 'antd';
 
 var serviceprocess_model = new ServiceProcessModel;
+var servicetype_model = new ServiceTypeModel;
 
 
 class ServiceProcessView extends Component {
@@ -14,17 +16,22 @@ class ServiceProcessView extends Component {
     super(props)
     this.state = {
       serviceprocess_list: [],
+      servicetype_list: [],
       visible: false,
     };
   }
 
   async componentDidMount() {
-    const serviceprocess_list = await serviceprocess_model.getServiceProcessBy();
-    console.log("serviceprocess_list ===",serviceprocess_list);
+    // const serviceprocess_list = await serviceprocess_model.getServiceProcessBy();
+    // const serviceprocess_ = await serviceprocess_model.getServiceProcessByCode();
+    const servicetype_list = await servicetype_model.getServiceTypeBy();
+    // console.log("serviceprocess_list ===",serviceprocess_list);
     
     this.setState({
-      serviceprocess_list : serviceprocess_list.data,
-        service_process_id : serviceprocess_list.data.map((item,index) => item.service_process_id)
+        // serviceprocess_list : serviceprocess_list.data,
+        servicetype_list : servicetype_list.data,
+        // service_process_id : serviceprocess_list.data.map((item,index) => item.service_process_id),
+        service_type_id : servicetype_list.data.map((item,index) => item.service_type_id)
     })
   }
 
@@ -63,8 +70,8 @@ class ServiceProcessView extends Component {
       // },
       {
         title: 'รหัส',
-        dataIndex:  'service_process_id',
-        key: 'service_process_id',
+        dataIndex:  'service_type_id',
+        key: 'service_type_id',
         width: '25%',
         render: (text, record, index) =>(
           <span key={index}>
@@ -72,17 +79,18 @@ class ServiceProcessView extends Component {
       </span>
         )
     },
+      // {
+      //     title: 'ชื่อกระบวนการ',
+      //     dataIndex:  'process_name',
+      //     key: 'process_name',
+      //     width: '25%',
+      //     render: (text, record, index) =>(
+      //       <span key={index}>
+      //      {text}
+      //   </span>
+      //     )
+      // },
       {
-          title: 'ชื่อประเภทงาน',
-          dataIndex:  'service_group_name',
-          key: 'service_group_name',
-          width: '25%',
-          render: (text, record, index) =>(
-            <span key={index}>
-           {text}
-        </span>
-          )
-      },{
         title: 'ชื่อหัวเรื่อง',
         dataIndex:  'service_type_name',
         key: 'service_type_name',
@@ -101,10 +109,10 @@ class ServiceProcessView extends Component {
           width: '20%',
           render: (text, record) =>
           <span>      
-                {/* <Button type="button" size="sm" color="link" style={{ color: '#337ab7' }}
-                    onClick={this.showModal}   >
+                <Button type="button" size="sm" color="link" style={{ color: '#337ab7' }}
+                    onClick={this.showModal(text)}   >
                     <i className="fa fa-eye" aria-hidden="true"></i>
-                </Button> */}
+                </Button>
                 <Button type="button" size="sm" color="link" style={{ color: 'red' }}
                     onClick={() => this.onDelete(text)}   >
                     <i className="fa fa-times" aria-hidden="true"></i>
@@ -131,7 +139,7 @@ class ServiceProcessView extends Component {
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
-              dataSource={this.state.serviceprocess_list}
+              dataSource={this.state.servicetype_list}
               pagination={{ pageSize: 5 }}  
               />
               <Button type="primary" onClick={this.showModal}>

@@ -11,12 +11,12 @@ import {
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
-import ServiceGroupModel from '../../models/ServiceGroupModel';
+import ProcessModel from '../../models/ProcessModel';
 import { Select } from 'antd'
 
 
 var servicetype_model = new ServiceTypeModel;
-var servicegroup_model = new ServiceGroupModel;
+var process_model = new ProcessModel;
 
 const { Option } = Select;
 
@@ -33,7 +33,7 @@ class ServiceTypeInsert extends Component {
 
   async componentDidMount() {
     console.log("componentDidMount");
-    const servicegroup = await servicegroup_model.getServiceGroupBy();
+    const servicegroup = await process_model.getServiceGroupBy();
     this.setState({
       servicegroup: servicegroup.data,
     })
@@ -115,22 +115,20 @@ _onAdminUserChange(event) {
                   </CardHeader>
                 <CardBody>
                   <FormGroup row>
-                    <Col lg="3">
+                  <Col lg="3">
                       <FormGroup>
-                        <Label>ชื่อหัวเรื่อง / Name <font color="#F00"><b>*</b></font></Label>
-                        <Input type="text" id="service_type_name" name="service_type_name" className="form-control" 
-                         valid={this.state.servicetype_name_validate == "VALID"}
-                         invalid={this.state.servicetype_name_validate == "INVALID-FORMAT" || this.state.servicetype_name_validate == "INVALID-DUPLICATE"}
-                         onChange={(e) => { this._onAdminUserChange(e) }}
-                       />
-                       <FormFeedback valid >สามารถใช้ชื่อนี้ได้</FormFeedback>
-                       <FormFeedback invalid >{this.state.servicetype_name_validate_text}</FormFeedback>
-                        <p className="help-block">Example : งานรังวัด</p>
+                        <Label>หัวเรื่อง / Service Group <font color="#F00"><b>*</b></font> </Label>
+                        <Select placeholder="กรุณาเลือกประเภท"
+                          id="service_group_id"
+                          onChange={this._onChange.bind(this)}
+                          value={this.state.select_value}>
+                          {servicegroup_select}
+                        </Select>
                       </FormGroup>
                     </Col>
                     <Col lg="3">
                       <FormGroup>
-                        <Label>ประเภทงาน / Service Group <font color="#F00"><b>*</b></font> </Label>
+                        <Label>กระบวนการ / Service Group <font color="#F00"><b>*</b></font> </Label>
                         <Select placeholder="กรุณาเลือกประเภท"
                           id="service_group_id"
                           onChange={this._onChange.bind(this)}
@@ -142,7 +140,7 @@ _onAdminUserChange(event) {
                   </FormGroup>                
                 </CardBody>
                 <CardFooter>
-                  <Link to="/user"><Button type="buttom" size="sm" > Back </Button></Link>
+                  <Link to="/serviceprocess"><Button type="buttom" size="sm" > Back </Button></Link>
                   {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                   <Button type="submit" size="sm" color="primary">Save</Button>
                 </CardFooter>

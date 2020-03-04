@@ -113,6 +113,7 @@ class ServiceTypeView extends Component {
           width: '20%',
           render: (text, record) =>
           <span>        
+               
                  <NavLink exact to={`/servicetype/update/` + text} style={{ color: '#337ab7' }}>
                     <i className="fa fa-pencil-square-o" ></i>
                 </NavLink>
@@ -120,6 +121,9 @@ class ServiceTypeView extends Component {
                     onClick={() => this.onDelete(text)}   >
                     <i className="fa fa-times" aria-hidden="true"></i>
                 </Button>
+                <NavLink exact to={`/servicetype/detail/` + text} style={{ color: '#337ab7' }}>
+                    <i className="fa fa-eye" ></i>
+                </NavLink>
               </span>
       },
   ];

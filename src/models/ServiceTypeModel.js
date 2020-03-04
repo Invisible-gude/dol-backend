@@ -98,5 +98,20 @@ export default class ServiceTypeModel {
                 console.error(error);
             });
     }
+    async getServiceByServiceTypeCode(data) {
+        return fetch(GOBALS.URL + 'service/getServiceByServiceTypeCode', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
   
 }

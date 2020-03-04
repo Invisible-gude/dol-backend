@@ -93,12 +93,6 @@ class DefaultLayout extends Component {
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="7">
-              <Link to='/serviceprocess'>
-              <Icon type="pie-chart" />
-                <span>Service Process</span>
-              </Link>
-            </Menu.Item>
             <Menu.Item key="8">
               <Icon type="file" />
               <span onClick={e => this.onLogout(e)}>Logout</span>
