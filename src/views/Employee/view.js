@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import UserModel from '../../models/UserModel';
 import { Table } from 'antd';
@@ -13,23 +12,20 @@ class CustomerView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      employee_list: []
+      employee_list: [],
     };
   }
 
   async componentDidMount() {
     const employee_list = await user_model.getEmployeeBy();
-    // console.log("customer_list ===",employee_list);
     
     this.setState({
         employee_list : employee_list.data,
-        employee_id : employee_list.data.map((item,index) => item.employee_id)
+        employee_id : employee_list.data.map(item => item.employee_id)
     })
-    // console.log("employee_id",this.state.employee_id)
   }
 
   async onDelete(code) {
-    // console.log("code",code);
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -58,7 +54,6 @@ class CustomerView extends Component {
       });
   }
   async onDelete(employee_id) {
-    // console.log("code",employee_id);
     
     swal({
       title: "Are you sure?",
@@ -90,17 +85,7 @@ class CustomerView extends Component {
 
   render() {
     const columns = [
-      // {
-      //     title: '#',
-      //     dataIndex: 'key',
-      //     key: 'key',
-      //     width: '10%',
-      //     render: (text, record, index) => (
-      //         <span key={index}>
-      //             {index + 1}
-      //         </span>
-      //     )
-      // },
+
       {
         title: 'รหัส',
         dataIndex:  'employee_id',
@@ -147,10 +132,10 @@ class CustomerView extends Component {
       {
           title: '',
           dataIndex: 'employee_id',
-          key: 'employee_id',
+          key: 'employee_id2',
           align: 'center',
           width: '20%',
-          render: (text, record) =>
+          render: (text, record,index) =>
           <span>        
                  <NavLink exact to={`/employee/update/` + text} style={{ color: '#337ab7' }}>
                     <i className="fa fa-pencil-square-o" ></i>
@@ -179,6 +164,7 @@ class CustomerView extends Component {
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
+              key={this.state.employee_id2}
               dataSource={this.state.employee_list}
               pagination={{ pageSize: 5 }}  
               />

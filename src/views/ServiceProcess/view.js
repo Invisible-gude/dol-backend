@@ -94,7 +94,7 @@ class ServiceProcessView extends Component {
       {
           title: '',
           dataIndex: 'service_type_id',
-          key: 'service_type_id',
+          key: 'service_type_id2',
           align: 'center',
           width: '20%',
           render: (text, record) =>

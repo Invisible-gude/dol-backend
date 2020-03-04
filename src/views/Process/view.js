@@ -106,7 +106,7 @@ class ProcessView extends Component {
       {
       title: '',
       dataIndex: 'process_id',
-      key: 'process_id',
+      key: 'process_id2',
       align: 'center',
       width: '20%',
       render: (text, record) =>
