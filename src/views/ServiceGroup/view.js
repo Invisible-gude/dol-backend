@@ -125,7 +125,7 @@ class ServiceGroupView extends Component {
                 <p>จัดการประเภทงาน / Service Group Management</p>
                 <br/>
                 <NavLink exact to={`/servicegroup/insert/`} style={{ width: '100%' }}>
-                <Button icon="plus" type="primary">Add</Button>
+                <Button color="success" icon="plus" type="primary">Add</Button>
                 </NavLink>
 
               </CardHeader>

@@ -158,7 +158,7 @@ class ServiceGroupUpdte extends Component {
                     </FormGroup>               
                   </CardBody>
                   <CardFooter>
-                    <Link to="/servicegroup"><Button type="buttom" size="sm" > Back </Button></Link>
+                    <Link to="/servicetype"><Button type="buttom" size="sm" > Back </Button></Link>
                     {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                     <Button type="submit" size="sm" color="primary">Save</Button>
                   </CardFooter>

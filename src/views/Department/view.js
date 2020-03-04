@@ -120,7 +120,7 @@ class DepartmentView extends Component {
                 <p>จัดการแผนก / Department Management</p>
                 <br/>
                 <NavLink exact to={`/department/insert/`} style={{ width: '100%' }}>
-                <Button icon="plus" type="primary">Add</Button>
+                <Button color="success" icon="plus" type="primary">Add</Button>
                 </NavLink>
 
               </CardHeader>
