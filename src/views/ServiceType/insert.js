@@ -50,10 +50,12 @@ class ServiceTypeInsert extends Component {
 
   async componentDidMount() {
     console.log("componentDidMount");
+    const servicetype = await servicetype_model.getServiceTypeBy();
     const servicegroup = await servicegroup_model.getServiceGroupBy();
     const process = await process_model.getProcessBy();
     console.log("process1",process);
     this.setState({
+      servicetype_id: servicetype.data.map(item => item.service_type_id),
       servicegroup: servicegroup.data,
       process: process.data,
       process1: process.data.map(item => item.process_name),
@@ -67,11 +69,8 @@ class ServiceTypeInsert extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     var arr = {};
-    var arr2 = {};
     var service_type_name = document.getElementById("service_type_name").value;
     var service_group_id = this.state.select_value;
-    var process_id = this.state.checkedValues;;
-    console.log("process_name",process_id);
     
     
     
@@ -98,7 +97,16 @@ class ServiceTypeInsert extends Component {
         window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
       }
     }
+    await this._postProcess()
+
+}
+  async _postProcess(){
+    var process_id = this.state.checkedValues;;
+    console.log("process_name",process_id);
+    var arr2 = {};
     
+    for(let i=0; i<process_id.length;i++){
+    arr2['service_type_id'] = this.state.servicetype_id+1;
     arr2['process_id'] = process_id;
     const serviceprocess =  serviceprocess_model.insertServiceProcess(arr2);
     console.log('serviceprocess ', arr2);
@@ -110,7 +118,8 @@ class ServiceTypeInsert extends Component {
     } else {
       window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
     }
-}
+  }
+  }
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
   if (servicetype_name_text == '') {
