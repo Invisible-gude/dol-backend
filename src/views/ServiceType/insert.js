@@ -73,8 +73,6 @@ class ServiceTypeInsert extends Component {
     var process_id = this.state.checkedValues;;
     console.log("process_name",process_id);
     
-    
-    
     if (service_type_name == '') {
       swal({
         title: "Warning!",
@@ -82,7 +80,6 @@ class ServiceTypeInsert extends Component {
         icon: "warning",
         button: "Close",
       });
-
     } else {
       arr['service_type_name'] = service_type_name;
       arr['service_group_id'] = service_group_id;
@@ -102,18 +99,6 @@ class ServiceTypeInsert extends Component {
         window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
       }
     }
-    
-    // arr2['process_id'] = process_id;
-    // const serviceprocess =  serviceprocess_model.insertServiceProcess(arr2.process_id[0],s_type_id);
-    // console.log('serviceprocess ', arr2);
-    // if (serviceprocess.query_result == true) {
-    //   swal("Save success!", {
-    //     icon: "success",
-    //   });
-    //   this.props.history.push('/serviceprocess');
-    // } else {
-    //   window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
-    // }
 }
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
