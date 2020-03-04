@@ -56,34 +56,32 @@ class ServiceTypeDetail extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log("Hello",this.state.select_value)
-        var arr = {};
-    
-        var service_type_id = service_type_id;
-        var process_id = this.state.select_value;
+      var arr = {};
+      var service_type_id = service_type_id;
+      var process_id = this.state.select_value;
+      
 
-          arr['service_type_id'] = service_type_id;
-          arr['process_id'] = process_id;
-          const serviceprocess = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id)
+      arr['service_type_id'] = service_type_id;
+      arr['process_id'] = process_id;
 
-          console.log('serviceprocess ', arr);
-          if (serviceprocess.query_result == true) {
-            swal("Save success!", {
-              icon: "success",
-            });
-            this.props.history.push('/servicetype/detail/'+this.state.service_type_id);
-          } else {
-            window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
-          }
-        
+      const serviceprocess = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id)
+
+      console.log('serviceprocess ', arr);
+      if (serviceprocess.query_result == true) {
+        swal("Save success!", {
+          icon: "success",
+        });
+        this.props.history.push('/servicetype/detail/'+this.state.service_type_id);
+      } else {
+        window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
+      }
     }
+
     _onChange(value) {
-      this.setState({ select_value: value });
+      this.setState({ select_value : value });
     }
   
   async onDelete(service_type_id) {
-    console.log("code",service_type_id);
-    
     swal({
       title: "Are you sure?",
       text: "Are you sure you want to delete this item?",
@@ -111,7 +109,6 @@ class ServiceTypeDetail extends Component {
         }
       });
   }
-
 
   render() {
     const columns = [
