@@ -35,14 +35,20 @@ export default class ServiceProcessModel {
                 console.error(error);
             });
     }
-    async insertServiceProcess(data) {
+    async insertServiceProcess(pid,tid) {
         return fetch(GOBALS.URL + 'serviceProcess/insertServiceProcess', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(
+                // data
+                {
+                    process_id : pid,
+                    service_type_id : tid    
+                }
+                )
         }).then((response) => response.json())
             .then((responseJson) => {
                 return responseJson;

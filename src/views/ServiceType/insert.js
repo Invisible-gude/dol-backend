@@ -86,10 +86,14 @@ class ServiceTypeInsert extends Component {
     } else {
       arr['service_type_name'] = service_type_name;
       arr['service_group_id'] = service_group_id;
-      
+      arr2['process_id'] = process_id;
       const servicetype = await servicetype_model.insertServiceType(arr);
       console.log('employee ', arr);
       if (servicetype.query_result == true) {
+        var s_type_id = servicetype.service_type_id
+        for(let i = 0;i<arr2.process_id.length;i++){
+          await serviceprocess_model.insertServiceProcess(arr2.process_id[i],s_type_id);
+        }
         swal("Save success!", {
           icon: "success",
         });
@@ -99,17 +103,17 @@ class ServiceTypeInsert extends Component {
       }
     }
     
-    arr2['process_id'] = process_id;
-    const serviceprocess =  serviceprocess_model.insertServiceProcess(arr2);
-    console.log('serviceprocess ', arr2);
-    if (serviceprocess.query_result == true) {
-      swal("Save success!", {
-        icon: "success",
-      });
-      this.props.history.push('/serviceprocess');
-    } else {
-      window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
-    }
+    // arr2['process_id'] = process_id;
+    // const serviceprocess =  serviceprocess_model.insertServiceProcess(arr2.process_id[0],s_type_id);
+    // console.log('serviceprocess ', arr2);
+    // if (serviceprocess.query_result == true) {
+    //   swal("Save success!", {
+    //     icon: "success",
+    //   });
+    //   this.props.history.push('/serviceprocess');
+    // } else {
+    //   window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
+    // }
 }
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
