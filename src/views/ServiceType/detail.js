@@ -83,8 +83,7 @@ class ServiceTypeDetail extends Component {
             icon: "success",
           });
           this.componentDidMount()
-          // window.location.reload(true)
-          this.props.history.push('/servicetype/detail/'+service_type_id);
+          this.state.select_value = "";
         } else {
           window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
         }
