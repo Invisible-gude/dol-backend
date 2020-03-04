@@ -94,7 +94,7 @@ class DepartmentView extends Component {
     {
       title: '',
       dataIndex: 'department_id',
-      key: 'department_id',
+      key: 'department_id2',
       align: 'center',
       width: '20%',
       render: (text, record) =>

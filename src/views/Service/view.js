@@ -99,7 +99,7 @@ class ServiceView extends Component {
       {
           title: '',
           dataIndex: 'service_id',
-          key: 'service_id',
+          key: 'service_id2',
           align: 'center',
           width: '20%',
           render: (text, record) =>

@@ -88,7 +88,7 @@ class ServiceGroupView extends Component {
       {
           title: '',
           dataIndex: 'service_group_id',
-          key: 'service_group_id',
+          key: 'service_group_id2',
           align: 'center',
           width: '20%',
           render: (text, record) =>
