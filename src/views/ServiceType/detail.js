@@ -3,13 +3,15 @@ import {
   FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
-
 } from 'reactstrap';
 import swal from 'sweetalert';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import ServiceProcessModel from '../../models/ServiceProcessModel';
 import ProcessModel from '../../models/ProcessModel';
-import { Table, Tabs, Select} from 'antd';
+import { Table, Tabs, Select,Input} from 'antd';
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined } from '@ant-design/icons';
+
 
 var servicetype_model = new ServiceTypeModel();
 var serviceProcess_model = new ServiceProcessModel();
@@ -32,6 +34,8 @@ class ServiceTypeDetail extends Component {
       service_type_id:[],
       servicetype_id:'',
       select_value: "",
+      searchText: '',
+      searchedColumn: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -121,6 +125,67 @@ class ServiceTypeDetail extends Component {
         }
       });
   }
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text =>
+    this.state.searchedColumn === dataIndex ? (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ) : (
+      text
+    ),
+});
+handleSearch = (selectedKeys, confirm, dataIndex) => {
+  confirm();
+  this.setState({
+    searchText: selectedKeys[0],
+    searchedColumn: dataIndex,
+  });
+};
+
+handleReset = clearFilters => {
+  clearFilters();
+  this.setState({ searchText: '' });
+};
 
   render() {
     const columns = [
@@ -129,6 +194,7 @@ class ServiceTypeDetail extends Component {
         dataIndex:  'process_id',
         key: 'process_id',
         width: '25%',
+        ...this.getColumnSearchProps('process_id'),
         render: (text, record, index) =>(
           <span key={index}>
          {text}
@@ -140,6 +206,7 @@ class ServiceTypeDetail extends Component {
           dataIndex:  'process_name',
           key: 'process_name',
           width: '25%',
+          ...this.getColumnSearchProps('process_name'),
           render: (text, record, index) =>(
             <span key={index}>
            {text}
@@ -168,6 +235,7 @@ class ServiceTypeDetail extends Component {
       dataIndex:  'service_id',
       key: 'service_id',
       width: '25%',
+      ...this.getColumnSearchProps('service_id'),
       render: (text, record, index) =>(
         <span key={index}>
        {text}
@@ -179,6 +247,7 @@ class ServiceTypeDetail extends Component {
         dataIndex:  'service_name',
         key: 'service_name',
         width: '25%',
+        ...this.getColumnSearchProps('service_name'),
         render: (text, record, index) =>(
           <span key={index}>
          {text}

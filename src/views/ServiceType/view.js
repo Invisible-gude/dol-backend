@@ -3,7 +3,9 @@ import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
-import { Table } from 'antd';
+import { Table,Input } from 'antd';
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined } from '@ant-design/icons';
 
 var servicetype_model = new ServiceTypeModel();
 
@@ -12,7 +14,9 @@ class ServiceTypeView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      servicetype_list: []
+      servicetype_list: [],
+      searchText: '',
+      searchedColumn: '',
     };
   }
 
@@ -58,6 +62,67 @@ class ServiceTypeView extends Component {
         }
       });
   }
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text =>
+    this.state.searchedColumn === dataIndex ? (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ) : (
+      text
+    ),
+});
+handleSearch = (selectedKeys, confirm, dataIndex) => {
+  confirm();
+  this.setState({
+    searchText: selectedKeys[0],
+    searchedColumn: dataIndex,
+  });
+};
+
+handleReset = clearFilters => {
+  clearFilters();
+  this.setState({ searchText: '' });
+};
 
   render() {
     const columns = [
@@ -67,6 +132,7 @@ class ServiceTypeView extends Component {
         dataIndex:  'service_type_id',
         key: 'service_type_id',
         width: '25%',
+        ...this.getColumnSearchProps('service_type_id'),
         render: (text, record, index) =>(
           <span key={index}>
          {text}
@@ -78,6 +144,7 @@ class ServiceTypeView extends Component {
           dataIndex:  'service_group_name',
           key: 'service_group_name',
           width: '25%',
+          ...this.getColumnSearchProps('service_group_name'),
           render: (text, record, index) =>(
             <span key={index}>
            {text}
@@ -88,6 +155,7 @@ class ServiceTypeView extends Component {
         dataIndex:  'service_type_name',
         key: 'service_type_name',
         width: '25%',
+        ...this.getColumnSearchProps('service_type_name'),
         render: (text, record, index) =>(
           <span key={index}>
          {text}
