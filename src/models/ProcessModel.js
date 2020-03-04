@@ -21,6 +21,24 @@ export default class ProcessModel {
             });
     }
 
+
+    async getProcessByServiceTypeCode(data) {
+        console.log("data",data);
+        return fetch(GOBALS.URL + 'process/getProcessByServiceTypeCode', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data
+            )
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
     async deleteProcessByProcessCode(data) {
         return fetch(GOBALS.URL + 'Process/deleteProcessByProcessCode', {
             method: 'POST',

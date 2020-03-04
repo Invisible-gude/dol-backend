@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import GOBALS from '../../GOBALS';
+import {
+  Form, FormGroup, Button,
+  Card, CardHeader, Col,
+  Row, CardBody, Label,
+  CardFooter,
+  FormFeedback,
+  Input,
+} from 'reactstrap';
 import swal from 'sweetalert';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import ServiceProcessModel from '../../models/ServiceProcessModel';
-import { Table, Tabs} from 'antd';
+import ProcessModel from '../../models/ProcessModel';
+import { Table, Tabs, Select} from 'antd';
 
 var servicetype_model = new ServiceTypeModel;
 var serviceProcess_model = new ServiceProcessModel;
+var process_model = new ProcessModel;
+const { Option } = Select;
 
 function callback(key) {
   console.log(key);
@@ -19,23 +29,58 @@ class ServiceTypeDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      process:[],
+      process1:[],
       servicetype_list: [],
       service: [],
+      service_type_id:[],
+      select_value: "",
     };
   }
 
   async componentDidMount() {
     const service_type_id = this.props.match.params.service_type_id;
+    console.log("service_type_id",service_type_id);
+    
+    const process = await process_model.getProcessByServiceTypeCode({ service_type_id: service_type_id });
+    console.log("service_type_id",service_type_id);
     const service_type_bycode = await serviceProcess_model.getServiceProcessByCode({ service_type_id: service_type_id });
     const service_bycode = await servicetype_model.getServiceByServiceTypeCode({ service_type_id: service_type_id });
-    console.log("service_type_id",service_type_bycode)
     this.setState({
+      process1: process.data,
       servicetype_list : service_type_bycode.data,
-      service : service_bycode.data
+      service : service_bycode.data,
+      service_type_id: service_type_bycode.data.map(item => item)
     })
       }
 
+  async handleSubmit(event) {
+    event.preventDefault();
+    console.log("Hello",this.state.select_value)
+        var arr = {};
+    
+        var service_type_id = service_type_id;
+        var process_id = this.state.select_value;
 
+          arr['service_type_id'] = service_type_id;
+          arr['process_id'] = process_id;
+          const serviceprocess = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id)
+
+          console.log('serviceprocess ', arr);
+          if (serviceprocess.query_result == true) {
+            swal("Save success!", {
+              icon: "success",
+            });
+            this.props.history.push('/servicetype/detail/'+this.state.service_type_id);
+          } else {
+            window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
+          }
+        
+    }
+    _onChange(value) {
+      this.setState({ select_value: value });
+    }
+  
   async onDelete(service_type_id) {
     console.log("code",service_type_id);
     
@@ -66,7 +111,7 @@ class ServiceTypeDetail extends Component {
         }
       });
   }
-  
+
 
   render() {
     const columns = [
@@ -92,7 +137,21 @@ class ServiceTypeDetail extends Component {
         </span>
           )
       },
-     
+      {
+        title: '',
+        dataIndex: 'process_id',
+        key: 'process_id',
+        align: 'center',
+        width: '20%',
+        render: (text, record) =>
+        <span>        
+             
+              <Button type="button" size="sm" color="link" style={{ color: 'red' }}
+                  onClick={() => this.onDelete(text)}   >
+                  <i className="fa fa-times" aria-hidden="true"></i>
+              </Button>
+            </span>
+    },
   ];
   const columns2 = [
     {
@@ -119,6 +178,9 @@ class ServiceTypeDetail extends Component {
     },
    
 ];
+let process_select = this.state.process1.map((item, index) => (
+  <Option key={index} value={item.process_id}>{item.process_name}</Option>
+))
 
     return (
       <div className="animated fadeIn">
@@ -128,27 +190,44 @@ class ServiceTypeDetail extends Component {
               <CardHeader>
                 {/* <p>{this.state.servicetype_list.map(item => item.service_type_name)}</p> */}
                 <br/>
-              
-            <Tabs defaultActiveKey="1" onChange={callback}>
+                <FormGroup row>
+                    <Col lg="3.5">
+                    </Col>
+                    <Col lg="3.5">                   
+                    </Col>
+                    <Col lg="5">   
+                      <FormGroup>
+                        <Label>เพิ่มกระบวนการ / Process <font color="#F00"><b>*</b></font> </Label>
+                            <Select placeholder="กรุณาเลือกประเภท"
+                                style={{width:200,right:0}}
+                                id="process_id"
+                                onChange={this._onChange.bind(this)}
+                                value={this.state.select_value}>
+                                {process_select}
+                            </Select>
+                            <Button type="submit" size="sm" color="primary" onClick={this.handleSubmit}>Save</Button>
+                      </FormGroup>                
+                    </Col>
+                  </FormGroup>            
+              <Tabs defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="กระบวนการ" key="1">
-                <CardBody>
-                  <Table columns={columns} 
-                  dataSource={this.state.servicetype_list}
-                  pagination={{ pageSize: 10 }}  
-                  />
+                  <CardBody>
+                    <Table columns={columns} 
+                      dataSource={this.state.servicetype_list}
+                      pagination={{ pageSize: 10 }}  
+                    />
                   </CardBody>
                 </TabPane>
                 <TabPane tab="บริการ" key="2">
-                <CardBody>
-                  <Table columns={columns2} 
-                  dataSource={this.state.service}
-                  pagination={{ pageSize: 10 }}  
-                  />
-                  </CardBody>
+                  <CardBody>
+                    <Table columns={columns2} 
+                      dataSource={this.state.service}
+                      pagination={{ pageSize: 10 }}  
+                    />
+                    </CardBody>
                 </TabPane>
               </Tabs>,
               </CardHeader>
-              
             </Card>
           </Col>
         </Row>

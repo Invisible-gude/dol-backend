@@ -104,25 +104,9 @@ class ServiceTypeInsert extends Component {
         window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
       }
     }
-    await this._postProcess()
 
 }
-  async _postProcess(){
-    var process_id = this.state.checkedValues;;
-    console.log("process_name",process_id);
-    
-    // arr2['process_id'] = process_id;
-    // const serviceprocess =  serviceprocess_model.insertServiceProcess(arr2.process_id[0],s_type_id);
-    // console.log('serviceprocess ', arr2);
-    // if (serviceprocess.query_result == true) {
-    //   swal("Save success!", {
-    //     icon: "success",
-    //   });
-    //   this.props.history.push('/serviceprocess');
-    // } else {
-    //   window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
-    // }
-}
+ 
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
   if (servicetype_name_text == '') {
