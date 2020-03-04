@@ -73,7 +73,8 @@ class ServiceTypeInsert extends Component {
 
     var service_type_name = document.getElementById("service_type_name").value;
     var service_group_id = this.state.select_value;
-    
+    var process_id = this.state.checkedValues;;
+
     
     
     if (service_type_name == '') {
