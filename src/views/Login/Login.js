@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
-
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import UserModel from '../../models/UserModel';
 
+var user_model = new UserModel();
 
-var user_model = new UserModel;
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -23,7 +22,7 @@ class Login extends Component {
     var arr = {};
     var employee_username = document.getElementById("employee_username").value;
     var employee_password = document.getElementById("employee_password").value;
-    if (employee_username == '') {
+    if (employee_username === '') {
       swal({
         title: "Warning!",
         text: "Please Check Your Username ",
@@ -31,7 +30,7 @@ class Login extends Component {
         button: "Close",
       });
 
-    } else if (employee_password == '') {
+    } else if (employee_password === '') {
       swal({
         title: "Warning!",
         text: "Please Check Your Password ",

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
   CardFooter,
-  FormFeedback,
   Input,
 } from 'reactstrap';
 import swal from 'sweetalert';
@@ -15,8 +13,8 @@ import ServiceModel from '../../models/ServiceModel';
 import { Select } from 'antd'
 
 
-var servicetype_model = new ServiceTypeModel;
-var service_model = new ServiceModel;
+var servicetype_model = new ServiceTypeModel();
+var service_model = new ServiceModel();
 
 const { Option } = Select;
 
@@ -45,7 +43,7 @@ class ServiceTypeInsert extends Component {
     var service_name = document.getElementById("service_name").value;
     var service_type_id = this.state.select_value;
 
-    if (service_name == '') {
+    if (service_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Name ",
@@ -59,7 +57,7 @@ class ServiceTypeInsert extends Component {
 
     const service = await service_model.insertService(arr);
     console.log('employee ', arr);
-    if (service.query_result == true) {
+    if (service.query_result === true) {
       swal("Save success!", {
         icon: "success",
       });
@@ -111,7 +109,6 @@ class ServiceTypeInsert extends Component {
                 </CardBody>
                 <CardFooter>
                   <Link to="/service"><Button type="buttom" size="sm" > Back </Button></Link>
-                  {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                   <Button type="submit" size="sm" color="primary">Save</Button>
                 </CardFooter>
               </Form>

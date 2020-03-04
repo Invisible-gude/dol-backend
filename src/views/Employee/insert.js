@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
@@ -15,8 +14,8 @@ import DepartmentModel from '../../models/DepartmentModel';
 import { Select } from 'antd'
 
 
-var employee_model = new UserModel;
-var department_model = new DepartmentModel;
+var employee_model = new UserModel();
+var department_model = new DepartmentModel();
 
 const { Option } = Select;
 
@@ -52,7 +51,7 @@ class EmployeeInsert extends Component {
     var employee_username = document.getElementById("employee_username").value;
     var employee_password = document.getElementById("employee_password").value;
 
-    if (employee_name == '') {
+    if (employee_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Name ",
@@ -60,42 +59,42 @@ class EmployeeInsert extends Component {
         button: "Close",
       });
 
-    } else if (employee_lastname == '') {
+    } else if (employee_lastname === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Lastname ",
         icon: "warning",
         button: "Close",
       });
-    } else if (employee_tel == '') {
+    } else if (employee_tel === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Telephone Number ",
         icon: "warning",
         button: "Close",
       });
-    } else if (employee_department == '') {
+    } else if (employee_department === '') {
       swal({
         title: "Warning!",
         text: "Please Select Department ",
         icon: "warning",
         button: "Close",
       });
-    } else if (employee_username == '') {
+    } else if (employee_username === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Username ",
         icon: "warning",
         button: "Close",
       });
-    } else if (employee_password == '') {
+    } else if (employee_password === '') {
       swal({
         title: "Warning!",
         text: "Please Enter password ",
         icon: "warning",
         button: "Close",
       });
-    } else if (employee_email == '') {
+    } else if (employee_email === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Email ",
@@ -113,7 +112,7 @@ class EmployeeInsert extends Component {
 
     const employee = await employee_model.insertEmployee(arr);
     // console.log('employee ', arr);
-    if (employee.query_result == true) {
+    if (employee.query_result === true) {
       swal("Save success!", {
         icon: "success",
       });
@@ -130,7 +129,7 @@ class EmployeeInsert extends Component {
     let USER_REGEX = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]{5}$/;
 
 
-    if (employee_user_text == '') {
+    if (employee_user_text === '') {
       this.setState({
         employee_user_validate: "",
         employee_user_validate_text: "",
@@ -146,7 +145,7 @@ class EmployeeInsert extends Component {
       employee_model.checkUsernameEmployee({ 'employee_username': employee_user_text }).then((responseJson) => {
         console.log("employee_user_text",employee_user_text)
         console.log('finduser', responseJson)
-        if (responseJson.data.length == 0) {
+        if (responseJson.data.length === 0) {
           this.setState({
             employee_user_validate: "VALID",
             employee_user: employee_user_text
@@ -229,8 +228,8 @@ class EmployeeInsert extends Component {
                       <FormGroup>
                         <Label>Username<font color="#F00"><b>*</b></font></Label>
                         <Input type="text" id="employee_username" name="employee_username" className="form-control"
-                          valid={this.state.employee_user_validate == "VALID"}
-                          invalid={this.state.employee_user_validate == "INVALID-FORMAT" || this.state.employee_user_validate == "INVALID-DUPLICATE"}
+                          valid={this.state.employee_user_validate === "VALID"}
+                          invalid={this.state.employee_user_validate === "INVALID-FORMAT" || this.state.employee_user_validate === "INVALID-DUPLICATE"}
                           onChange={(e) => { this._onAdminUserChange(e) }}
                         />
                       

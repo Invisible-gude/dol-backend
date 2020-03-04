@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
-
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
   Input, CardFooter,
-  CustomInput
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import DepartmentModel from '../../models/DepartmentModel';
-import { Select } from 'antd'
 
-var department_model = new DepartmentModel;
-const { Option } = Select;
-
+var department_model = new DepartmentModel();
 class DepartmentUpdate extends Component {
 
   constructor(props) {
@@ -42,7 +36,7 @@ class DepartmentUpdate extends Component {
     var arr = {};
     var department_id = document.getElementById("department_id").value;
     var department_name = document.getElementById("department_name").value;
-    if (department_name == '') {
+    if (department_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Your Name ",
@@ -56,7 +50,7 @@ class DepartmentUpdate extends Component {
       arr['department_name'] = department_name;
 
       const department = await department_model.updateDepartmentByCode(arr);
-      if (department.query_result == true) {
+      if (department.query_result === true) {
         swal("Save success!", {
           icon: "success",
         });

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
-
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
@@ -11,10 +9,8 @@ import {
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import ServiceGroupModel from '../../models/ServiceGroupModel';
-import { Select } from 'antd'
 
-var servicegroup_model = new ServiceGroupModel;
-const { Option } = Select;
+var servicegroup_model = new ServiceGroupModel();
 
 class ServiceGroupUpdte extends Component {
 
@@ -46,7 +42,7 @@ class ServiceGroupUpdte extends Component {
     var arr = {};
     var service_group_id = document.getElementById("service_group_id").value;
     var service_group_name = document.getElementById("service_group_name").value;
-    if (service_group_name == '') {
+    if (service_group_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Service Group Name ",
@@ -57,7 +53,7 @@ class ServiceGroupUpdte extends Component {
       arr['service_group_id'] = service_group_id;      
       arr['service_group_name'] = service_group_name;      
       const servicegroup = await servicegroup_model.updateServiceGroup(arr);
-      if (servicegroup.query_result == true) {
+      if (servicegroup.query_result === true) {
         swal("Save success!", {
           icon: "success",
         });
@@ -69,14 +65,14 @@ class ServiceGroupUpdte extends Component {
   }
   _onAdminUserChange(event) {
     const servicegroup_name_text = event.target.value;
-    if (servicegroup_name_text == '') {
+    if (servicegroup_name_text === '') {
       this.setState({
         servicegroup_name_validate: "",
         servicegroup_name_validate_text: "",
       })
     } else {
       servicegroup_model.checkServiceGroupname({ 'service_group_name': servicegroup_name_text }).then((responseJson) => {
-        if (responseJson.data.length == 0) {
+        if (responseJson.data.length === 0) {
           this.setState({
             servicegroup_name_validate: "VALID",
             servicegroup_name: servicegroup_name_text
@@ -118,8 +114,8 @@ class ServiceGroupUpdte extends Component {
                         <FormGroup>
                           <Label>ชื่อประเภทงาน / Name <font color="#F00"><b>*</b></font></Label>
                           <Input type="text" id="service_group_name" name="service_group_name" className="form-control"
-                          valid={this.state.servicegroup_name_validate == "VALID"}
-                          invalid={this.state.servicegroup_name_validate == "INVALID-FORMAT" || this.state.servicegroup_name_validate == "INVALID-DUPLICATE"}
+                          valid={this.state.servicegroup_name_validate === "VALID"}
+                          invalid={this.state.servicegroup_name_validate === "INVALID-FORMAT" || this.state.servicegroup_name_validate === "INVALID-DUPLICATE"}
                           onChange={(e) => { this._onAdminUserChange(e) }}
                         />
                         <FormFeedback valid >สามารถใช้ชื่อนี้ได้</FormFeedback>

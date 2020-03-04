@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
-
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
   Input, CardFooter,
-  CustomInput
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
@@ -14,8 +11,8 @@ import UserModel from '../../models/UserModel';
 import DepartmentModel from '../../models/DepartmentModel';
 import { Select } from 'antd'
 
-var employee_model = new UserModel;
-var department_model = new DepartmentModel;
+var employee_model = new UserModel();
+var department_model = new DepartmentModel();
 const { Option } = Select;
 
 class EmployeeUpdate extends Component {
@@ -34,7 +31,7 @@ class EmployeeUpdate extends Component {
     const emp_id = employee_id;
     const employee_bycode = await employee_model.getEmployeeByEmployeeCode({ employee_id: emp_id });
     let employee = employee_bycode.data[0]
-    // console.log("employee",employee)
+
     document.getElementById("employee_id").value = employee.employee_id
     document.getElementById("employee_name").value = employee.employee_name;
     document.getElementById("employee_lastname").value = employee.employee_lastname;
@@ -56,7 +53,7 @@ class EmployeeUpdate extends Component {
     var employee_email = document.getElementById("employee_email").value;
     var employee_tel = document.getElementById("employee_tel").value;
     var department_id = this.state.select_value;
-    if (employee_name == '') {
+    if (employee_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Your Name ",
@@ -64,7 +61,7 @@ class EmployeeUpdate extends Component {
         button: "Close",
       });
 
-    } else if (employee_lastname == '') {
+    } else if (employee_lastname === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Your Lastname ",
@@ -82,7 +79,7 @@ class EmployeeUpdate extends Component {
       
       const employee = await employee_model.updateEmployeeByEmployeeCode(arr);
       console.log('image',employee);
-      if (employee.query_result == true) {
+      if (employee.query_result === true) {
         swal("Save success!", {
           icon: "success",
         });

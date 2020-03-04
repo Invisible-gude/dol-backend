@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import ProcessModel from '../../models/ProcessModel';
 import { Table } from 'antd';
 
 
-var process_model = new ProcessModel;
+var process_model = new ProcessModel();
 
 
 class ProcessView extends Component {
@@ -39,7 +38,7 @@ class ProcessView extends Component {
       .then((willDelete) => {
         if (willDelete) {
             process_model.deleteProcessByProcessCode(code).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });
@@ -122,7 +121,6 @@ class ProcessView extends Component {
       },
     ];
 
-    const { process_list } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import { Table } from 'antd';
 
-var servicetype_model = new ServiceTypeModel;
+var servicetype_model = new ServiceTypeModel();
 
 
 class ServiceTypeView extends Component {
@@ -42,7 +41,7 @@ class ServiceTypeView extends Component {
       .then((willDelete) => {
         if (willDelete) {
           servicetype_model.deleteServiceTypeByCode(service_type_id).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });

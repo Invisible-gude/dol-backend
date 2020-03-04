@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
@@ -19,20 +18,13 @@ import { Select, Checkbox} from 'antd'
 const CheckboxGroup = Checkbox.Group;
 
 
-var servicetype_model = new ServiceTypeModel;
-var servicegroup_model = new ServiceGroupModel;
-var process_model = new ProcessModel;
-var serviceprocess_model = new ServiceProcessModel;
+var servicetype_model = new ServiceTypeModel();
+var servicegroup_model = new ServiceGroupModel();
+var process_model = new ProcessModel();
+var serviceprocess_model = new ServiceProcessModel();
 
 const { Option } = Select;
   
-// function onChange(checkedValues) {
-//   console.log('checked = ', checkedValues);
-  // this.setState({
-  //   checkedValues,
-  //   indeterminate: !!checkedValues.length && checkedValues.length < this.state.process1.length,
-  // });
-// }
 class ServiceTypeInsert extends Component {
 
   constructor(props) {
@@ -76,7 +68,7 @@ class ServiceTypeInsert extends Component {
     var process_id = this.state.checkedValues;;
     console.log("process_name",process_id);
     
-    if (service_type_name == '') {
+    if (service_type_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Name ",
@@ -89,7 +81,7 @@ class ServiceTypeInsert extends Component {
       arr2['process_id'] = process_id;
       const servicetype = await servicetype_model.insertServiceType(arr);
       console.log('employee ', arr);
-      if (servicetype.query_result == true) {
+      if (servicetype.query_result === true) {
         var s_type_id = servicetype.service_type_id
         for(let i = 0;i<arr2.process_id.length;i++){
           await serviceprocess_model.insertServiceProcess(arr2.process_id[i],s_type_id);
@@ -108,14 +100,14 @@ class ServiceTypeInsert extends Component {
 
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
-  if (servicetype_name_text == '') {
+  if (servicetype_name_text === '') {
     this.setState({
       servicetype_name_validate: "",
       servicetype_name_validate_text: "",
     })
   } else {
     servicetype_model.checkServiceTypename({ 'service_type_name': servicetype_name_text }).then((responseJson) => {
-      if (responseJson.data.length == 0) {
+      if (responseJson.data.length === 0) {
         this.setState({
           servicetype_name_validate: "VALID",
           servicetype_name: servicetype_name_text
@@ -171,8 +163,8 @@ _onAdminUserChange(event) {
                       <FormGroup>
                         <Label>ชื่อหัวเรื่อง / Name <font color="#F00"><b>*</b></font></Label>
                         <Input type="text" id="service_type_name" name="service_type_name" className="form-control" 
-                         valid={this.state.servicetype_name_validate == "VALID"}
-                         invalid={this.state.servicetype_name_validate == "INVALID-FORMAT" || this.state.servicetype_name_validate == "INVALID-DUPLICATE"}
+                         valid={this.state.servicetype_name_validate === "VALID"}
+                         invalid={this.state.servicetype_name_validate === "INVALID-FORMAT" || this.state.servicetype_name_validate === "INVALID-DUPLICATE"}
                          onChange={(e) => { this._onAdminUserChange(e) }}
                        />
                        <FormFeedback valid >สามารถใช้ชื่อนี้ได้</FormFeedback>
@@ -199,7 +191,6 @@ _onAdminUserChange(event) {
                          <CheckboxGroup
                           id="process_id"
                           onChange={this.onChange}
-                          // value={this.state.process_id} 
                         >
                           {process_select}
                         </CheckboxGroup>                       

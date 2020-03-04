@@ -1,8 +1,6 @@
 import GOBALS from '../GOBALS';
 export default class UserModel {
 
-    constructor() {
-    }
     async getLogin(data) {
         return fetch(GOBALS.URL + 'employee/getLogin', {
             method: 'POST',

@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import UserModel from '../../models/UserModel';
 import { Table } from 'antd';
 
-var user_model = new UserModel;
+var user_model = new UserModel();
 
 
 class CustomerView extends Component {
@@ -25,34 +25,6 @@ class CustomerView extends Component {
     })
   }
 
-  async onDelete(code) {
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure you want to delete this item?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-            user_model.deleteEmployeeByEmployeeCode(code).then((res) => {
-            if (res.query_result == true) {
-              swal("Delete success!", {
-                icon: "success",
-              });
-              this.componentDidMount()
-            } else {
-              swal({
-                title: "Error!",
-                text: " Error Delete ",
-                icon: "error",
-                button: "Close",
-              });
-            }
-          })
-        }
-      });
-  }
   async onDelete(employee_id) {
     
     swal({
@@ -65,7 +37,7 @@ class CustomerView extends Component {
       .then((willDelete) => {
         if (willDelete) {
           user_model.deleteEmployeeByEmployeeCode(employee_id).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });

@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
-import swal from 'sweetalert';
-import ServiceProcessModel from '../../models/ServiceProcessModel';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
-import { Table, Modal} from 'antd';
+import { Table} from 'antd';
 
-var serviceprocess_model = new ServiceProcessModel;
-var servicetype_model = new ServiceTypeModel;
+var servicetype_model = new ServiceTypeModel();
 
 
 class ServiceProcessView extends Component {
@@ -22,38 +18,13 @@ class ServiceProcessView extends Component {
   }
 
   async componentDidMount() {
-    // const serviceprocess_list = await serviceprocess_model.getServiceProcessBy();
-    // const serviceprocess_ = await serviceprocess_model.getServiceProcessByCode();
     const servicetype_list = await servicetype_model.getServiceTypeBy();
-    // console.log("serviceprocess_list ===",serviceprocess_list);
     
     this.setState({
-        // serviceprocess_list : serviceprocess_list.data,
         servicetype_list : servicetype_list.data,
-        // service_process_id : serviceprocess_list.data.map((item,index) => item.service_process_id),
         service_type_id : servicetype_list.data.map((item,index) => item.service_type_id)
     })
   }
-
-      showModal = () => {
-        this.setState({
-          visible: true,
-        });
-      };
-
-      handleOk = e => {
-        console.log(e);
-        this.setState({
-          visible: false,
-        });
-      };
-
-      handleCancel = e => {
-        console.log(e);
-        this.setState({
-          visible: false,
-        });
-      };
 
   render() {
     const columns = [
@@ -69,17 +40,6 @@ class ServiceProcessView extends Component {
       </span>
         )
     },
-      // {
-      //     title: 'ชื่อกระบวนการ',
-      //     dataIndex:  'process_name',
-      //     key: 'process_name',
-      //     width: '25%',
-      //     render: (text, record, index) =>(
-      //       <span key={index}>
-      //      {text}
-      //   </span>
-      //     )
-      // },
       {
         title: 'ชื่อหัวเรื่อง',
         dataIndex:  'service_type_name',
@@ -132,19 +92,7 @@ class ServiceProcessView extends Component {
               dataSource={this.state.servicetype_list}
               pagination={{ pageSize: 5 }}  
               />
-              <Button type="primary" onClick={this.showModal}>
-                Open Modal
-              </Button>
-              <Modal
-                title="Basic Modal"
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-              >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-              </Modal>
+            
               </CardBody>
             </Card>
           </Col>

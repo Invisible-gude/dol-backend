@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
   CardFooter,
-  FormFeedback,
-  Input,
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
@@ -15,8 +12,8 @@ import ProcessModel from '../../models/ProcessModel';
 import { Select } from 'antd'
 
 
-var servicetype_model = new ServiceTypeModel;
-var process_model = new ProcessModel;
+var servicetype_model = new ServiceTypeModel();
+var process_model = new ProcessModel();
 
 const { Option } = Select;
 
@@ -47,7 +44,7 @@ class ServiceTypeInsert extends Component {
     var service_type_name = document.getElementById("service_type_name").value;
     var service_group_id = this.state.select_value;
 
-    if (service_type_name == '') {
+    if (service_type_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Name ",
@@ -61,7 +58,7 @@ class ServiceTypeInsert extends Component {
 
     const servicetype = await servicetype_model.insertServiceType(arr);
     console.log('employee ', arr);
-    if (servicetype.query_result == true) {
+    if (servicetype.query_result === true) {
       swal("Save success!", {
         icon: "success",
       });
@@ -73,14 +70,14 @@ class ServiceTypeInsert extends Component {
 }
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
-  if (servicetype_name_text == '') {
+  if (servicetype_name_text === '') {
     this.setState({
       servicetype_name_validate: "",
       servicetype_name_validate_text: "",
     })
   } else {
     servicetype_model.checkServiceTypename({ 'service_type_name': servicetype_name_text }).then((responseJson) => {
-      if (responseJson.data.length == 0) {
+      if (responseJson.data.length === 0) {
         this.setState({
           servicetype_name_validate: "VALID",
           servicetype_name: servicetype_name_text
@@ -141,7 +138,6 @@ _onAdminUserChange(event) {
                 </CardBody>
                 <CardFooter>
                   <Link to="/serviceprocess"><Button type="buttom" size="sm" > Back </Button></Link>
-                  {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                   <Button type="submit" size="sm" color="primary">Save</Button>
                 </CardFooter>
               </Form>

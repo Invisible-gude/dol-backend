@@ -1,9 +1,6 @@
 import GOBALS from '../GOBALS';
 export default class ServiceProcessModel {
 
-    constructor() {
-    }
- 
     async getServiceProcessBy() {
         return fetch(GOBALS.URL + 'serviceProcess/getServiceProcessBy', {
             method: 'POST',

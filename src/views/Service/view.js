@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import ServiceModel from '../../models/ServiceModel';
 import { Table } from 'antd';
 
-var service_model = new ServiceModel;
+var service_model = new ServiceModel();
 
 
 class ServiceView extends Component {
@@ -42,7 +41,7 @@ class ServiceView extends Component {
       .then((willDelete) => {
         if (willDelete) {
           service_model.deleteServiceByCode(service_id).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });

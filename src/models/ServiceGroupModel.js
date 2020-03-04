@@ -1,8 +1,6 @@
 import GOBALS from '../GOBALS';
 export default class ServiceGroupModel {
 
-    constructor() {
-    }
  
     async getServiceGroupBy() {
         return fetch(GOBALS.URL + 'serviceGroup/getServiceGroupBy', {

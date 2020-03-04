@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
   CardFooter,
-  FormFeedback,
   Input
 } from 'reactstrap';
 import swal from 'sweetalert';
@@ -15,9 +13,8 @@ import DepartmentModel from '../../models/DepartmentModel';
 import { Select } from 'antd'
 
 
-var process_model = new ProcessModel;
-var department_model = new DepartmentModel;
-
+var process_model = new ProcessModel();
+var department_model = new DepartmentModel();
 const { Option } = Select;
 
 class ProcessInsert extends Component {
@@ -44,7 +41,7 @@ class ProcessInsert extends Component {
     var process_name = document.getElementById("process_name").value;
     var process_department = this.state.select_value;
 
-    if (process_name == '') {
+    if (process_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Name ",
@@ -57,7 +54,7 @@ class ProcessInsert extends Component {
 
     const process = await process_model.insertProcess(arr);
     console.log('process ', arr);
-    if (process.query_result == true) {
+    if (process.query_result === true) {
       swal("Save success!", {
         icon: "success",
       });
@@ -69,7 +66,6 @@ class ProcessInsert extends Component {
 }
   _
   _onChange(value) {
-    //console.log(value) - just to see what we recive from <Select />
     this.setState({ select_value: value });
   }
   render() {
@@ -112,7 +108,6 @@ class ProcessInsert extends Component {
                 </CardBody>
                 <CardFooter>
                   <Link to="/process"><Button type="buttom" size="sm" > Back </Button></Link>
-                  {/* <Button type="button" onClick={this.uploadImage} size="sm" color="danger"> Reset</Button> */}
                   <Button type="submit" size="sm" color="primary">Save</Button>
                 </CardFooter>
               </Form>

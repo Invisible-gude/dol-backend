@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
-
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
   Input, CardFooter,
-  CustomInput
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import ProcessModel from '../../models/ProcessModel';
 import DepartmentModel from '../../models/DepartmentModel';
 import { Select } from 'antd'
-var department_model = new DepartmentModel;
-var process_model = new ProcessModel;
+
+var department_model = new DepartmentModel();
+var process_model = new ProcessModel();
 const { Option } = Select;
 
 class ProcessUpdate extends Component {
@@ -47,7 +45,7 @@ class ProcessUpdate extends Component {
     var process_id = document.getElementById("process_id").value;
     var process_name = document.getElementById("process_name").value;
     var process_department = this.state.select_value;
-    if (process_name == '') {
+    if (process_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Your Name ",
@@ -61,7 +59,7 @@ class ProcessUpdate extends Component {
       arr['department_id'] = process_department;
       const process = await process_model.updateProcessByProcessCode(arr);
       
-      if (process.query_result == true) {
+      if (process.query_result === true) {
         swal("Save success!", {
           icon: "success",
         });
@@ -73,7 +71,6 @@ class ProcessUpdate extends Component {
   }
 
   _onChange(value) {
-    //console.log(value) - just to see what we recive from <Select />
     this.setState({ select_value: value });
   }
 

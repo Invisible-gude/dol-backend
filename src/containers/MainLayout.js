@@ -3,14 +3,14 @@ import {Redirect, Route, Switch,Link } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import 'antd/dist/antd.css';
 import logo from '../assets/img/revel-soft-logo.png'
-import { Layout, Menu, Icon,Footer } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import routes from '../routes';
 
 
 
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Header, Sider } = Layout;
 class DefaultLayout extends Component {
   constructor(props) {
     super(props)

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import ServiceGroupModel from '../../models/ServiceGroupModel';
 import { Table } from 'antd';
 
-var servicegroup_model = new ServiceGroupModel;
+var servicegroup_model = new ServiceGroupModel();
 
 
 class ServiceGroupView extends Component {
@@ -42,7 +41,7 @@ class ServiceGroupView extends Component {
       .then((willDelete) => {
         if (willDelete) {
           servicegroup_model.deleteServiceGroupByCode(service_group_id).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });

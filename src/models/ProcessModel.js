@@ -1,8 +1,6 @@
 import GOBALS from '../GOBALS';
 export default class ProcessModel {
 
-    constructor() {
-    }
 
     async getProcessBy() {
         return fetch(GOBALS.URL + 'Process/getProcessBy', {

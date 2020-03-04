@@ -1,8 +1,6 @@
 import GOBALS from '../GOBALS';
 export default class DepartmentModel {
 
-    constructor() {
-    }
  
     async getDepartmentBy() {
         return fetch(GOBALS.URL + 'Department/getDepartmentBy', {

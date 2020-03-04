@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import swal from 'sweetalert';
 import DepartmentModel from '../../models/DepartmentModel';
 import { Table} from 'antd';
 
 
-var department_model = new DepartmentModel;
+var department_model = new DepartmentModel();
 
 
 class DepartmentView extends Component {
@@ -38,7 +37,7 @@ class DepartmentView extends Component {
       .then((willDelete) => {
         if (willDelete) {
             department_model.deleteDepartmentByDepartmentCode(code).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });
@@ -110,7 +109,6 @@ class DepartmentView extends Component {
     },
   ];
 
-    const { department_list } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>

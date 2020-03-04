@@ -1,9 +1,6 @@
 import GOBALS from '../GOBALS';
 export default class ServiceModel {
 
-    constructor() {
-    }
- 
     async getServiceBy() {
         return fetch(GOBALS.URL + 'service/getServiceBy', {
             method: 'POST',

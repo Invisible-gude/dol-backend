@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import GOBALS from '../../GOBALS';
 import {
   Form, FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
    CardFooter,
-  CustomInput,
   Input
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import DepartmentModel from '../../models/DepartmentModel';
 
-var department_model = new DepartmentModel;
+var department_model = new DepartmentModel();
 
 class DepartmentInsert extends Component {
 
@@ -32,7 +30,7 @@ class DepartmentInsert extends Component {
       var arr = {};
       var department_name = document.getElementById("department_name").value;      
       
-      if (department_name == '') {
+      if (department_name === '') {
         swal({
           title: "Warning!",
           text: "Please Enter Your Name ",
@@ -43,7 +41,7 @@ class DepartmentInsert extends Component {
         arr['department_name'] = department_name;
         
         const department = await department_model.insertDepartment(arr);
-        if (department.result == true) {
+        if (department.result === true) {
           swal("Save success!", {
             icon: "success",
           });

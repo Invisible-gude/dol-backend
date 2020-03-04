@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import GOBALS from '../../GOBALS';
 import {
-  Form, FormGroup, Button,
+  FormGroup, Button,
   Card, CardHeader, Col,
   Row, CardBody, Label,
-  CardFooter,
-  FormFeedback,
-  Input,
+
 } from 'reactstrap';
 import swal from 'sweetalert';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
@@ -15,9 +11,9 @@ import ServiceProcessModel from '../../models/ServiceProcessModel';
 import ProcessModel from '../../models/ProcessModel';
 import { Table, Tabs, Select} from 'antd';
 
-var servicetype_model = new ServiceTypeModel;
-var serviceProcess_model = new ServiceProcessModel;
-var process_model = new ProcessModel;
+var servicetype_model = new ServiceTypeModel();
+var serviceProcess_model = new ServiceProcessModel();
+var process_model = new ProcessModel();
 const { Option } = Select;
 
 function callback(key) {
@@ -64,7 +60,7 @@ class ServiceTypeDetail extends Component {
             var arr = {};
         var process_id = this.state.select_value;
         var service_type_id = this.state.servicetype_id;
-        if (service_type_id == '') {
+        if (service_type_id === '') {
           swal({
             title: "Warning!",
             text: "Please Enter Name ",
@@ -78,7 +74,7 @@ class ServiceTypeDetail extends Component {
     
         const service = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id);
         console.log('employee ', arr);
-        if (service.query_result == true) {
+        if (service.query_result === true) {
           swal("Save success!", {
             icon: "success",
           });
@@ -108,7 +104,7 @@ class ServiceTypeDetail extends Component {
       .then((willDelete) => {
         if (willDelete) {
           serviceProcess_model.deleteServiceProcessByCode(service_process_id).then((res) => {
-            if (res.query_result == true) {
+            if (res.query_result === true) {
               swal("Delete success!", {
                 icon: "success",
               });
