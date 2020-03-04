@@ -126,7 +126,6 @@ class ServiceTypeDetail extends Component {
       });
   }
 
-
   render() {
     const columns = [
       {
