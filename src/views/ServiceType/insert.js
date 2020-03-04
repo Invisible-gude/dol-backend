@@ -74,8 +74,7 @@ class ServiceTypeInsert extends Component {
     var service_type_name = document.getElementById("service_type_name").value;
     var service_group_id = this.state.select_value;
     var process_id = this.state.checkedValues;;
-
-    
+    console.log("process_name",process_id);
     
     if (service_type_name == '') {
       swal({
@@ -84,7 +83,6 @@ class ServiceTypeInsert extends Component {
         icon: "warning",
         button: "Close",
       });
-
     } else {
       arr['service_type_name'] = service_type_name;
       arr['service_group_id'] = service_group_id;
@@ -107,6 +105,7 @@ class ServiceTypeInsert extends Component {
 
 }
  
+
 _onAdminUserChange(event) {
   const servicetype_name_text = event.target.value;
   if (servicetype_name_text == '') {
