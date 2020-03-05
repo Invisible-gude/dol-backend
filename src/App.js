@@ -14,6 +14,7 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 function App() {
   const user_login = JSON.parse(localStorage.getItem('user_login'));
   console.log("login ", user_login )
+
   if (user_login == null) {
     return (
       <HashRouter>
@@ -32,9 +33,10 @@ function App() {
         <React.Suspense fallback={loading()}>
           <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet" />
           <Switch>
-            {user_login.department_name === 'admin'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
-            {user_login.department_name === 'พนักงานประชาสัมพันธ์'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
-            {user_login.department_name === ''  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
+            {user_login.department_name === 'admin' ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
+            {user_login.department_name === 'พนักงานประชาสัมพันธ์' ? <Route path="/" name="Home" render={props => <MainLayoutPublicize {...props} />} /> : ''} /> }
+            {user_login.department_name === 'ผู้บริหาร' ? <Route path="/" name="Home" render={props => <MainLayoutExecutive {...props} />} /> :  '' }
+            {user_login.department_name !== 'ผู้บริหาร' && user_login.department_name !== 'พนักงานประชาสัมพันธ์' && user_login.department_name !== 'admin'  ? <Route path="/" name="Home" render={props => <MainLayoutEmployee {...props} />} /> : '' }
           </Switch>
         </React.Suspense>
       </HashRouter>
