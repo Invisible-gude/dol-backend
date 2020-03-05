@@ -6,8 +6,9 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 const TaskView = React.lazy(() => import('./view'));
 const TaskInsert = React.lazy(() => import('./insert'));
 const TaskUpdate = React.lazy(() => import('./update'));
+const TaskDetail = React.lazy(() => import('./detail'));
 
-class DepartmentMain extends Component {
+class TaskMain extends Component {
 
   render() {
     return (
@@ -16,6 +17,7 @@ class DepartmentMain extends Component {
           <Switch>
           <Route exact path="/task" name="Login Page" render={props => <TaskView {...props} />} />
             <Route exact path="/task/insert" name="Login Page" render={props => <TaskInsert {...props} />} />
+            <Route exact path="/task/detail/:task_id" name="Login Page" render={props => <TaskDetail {...props} />} />
             <Route exact path="/task/update/:task_id" name="Login Page" render={props => <TaskUpdate {...props} />} />
           </Switch>
         </React.Suspense>
@@ -25,4 +27,4 @@ class DepartmentMain extends Component {
 }
 
 
-export default (DepartmentMain);
+export default (TaskMain);

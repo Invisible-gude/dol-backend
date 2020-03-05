@@ -7,8 +7,6 @@ import { Layout, Menu, Icon } from 'antd';
 import routes from '../routes';
 
 
-
-
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 class DefaultLayout extends Component {
@@ -54,12 +52,15 @@ class DefaultLayout extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to='/task'>
+              <Link to='/task/insert'>
                   <Icon type="pie-chart" />
                   <span>เพิ่มงาน</span>
               </Link>
             </Menu.Item>
-
+            <Menu.Item key="8">
+              <Icon type="file" />
+              <span onClick={e => this.onLogout(e)}>Logout</span>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>

@@ -2,63 +2,35 @@ import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
-import DepartmentModel from '../../models/DepartmentModel';
+import TaskModel from '../../models/TaskModel';
 import { Table,Input} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
 
 
-var department_model = new DepartmentModel();
+var task_model = new TaskModel();
 
 
 class TaskView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      department_list: [],
+      task_list: [],
       searchText: '',
       searchedColumn: '',
     };
   }
 
   async componentDidMount() {
-    const department_list = await department_model.getDepartmentBy();
-    console.log("department_list ===",department_list);
+    const task_list = await task_model.getTaskBy();
+    console.log("task_list ===",task_list);
     
     this.setState({
-        department_list: department_list.data
+      task_list: task_list.data
     })
   }
-  async onDelete(code) {
-    console.log(code);
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure you want to delete this item?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-            department_model.deleteDepartmentByDepartmentCode(code).then((res) => {
-            if (res.query_result === true) {
-              swal("Delete success!", {
-                icon: "success",
-              });
-              this.componentDidMount()
-            } else {
-              swal({
-                title: "Error!",
-                text: " Error Delete ",
-                icon: "error",
-                button: "Close",
-              });
-            }
-          })
-        }
-      });
-  }
+ 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -124,11 +96,23 @@ handleReset = clearFilters => {
     const columns = [
      
       {
-          title: 'รหัสแผนก',
-          dataIndex: 'department_id',
-          key: 'department_id',
+        title: 'คิว',
+        dataIndex: 'task_code',
+        key: 'task_code',
+        width: '25%',
+        ...this.getColumnSearchProps('task_id'),
+        render: (text, record, index) =>(
+          <span key={index}>
+         {text}
+      </span>
+        )
+    },  
+      {
+          title: 'รหัสงาน',
+          dataIndex: 'task_id',
+          key: 'task_id',
           width: '25%',
-          ...this.getColumnSearchProps('department_id'),
+          ...this.getColumnSearchProps('task_id'),
           render: (text, record, index) =>(
             <span key={index}>
            {text}
@@ -136,11 +120,11 @@ handleReset = clearFilters => {
           )
       },  
       {
-        title: 'ชื่อแผนก',
-        dataIndex: 'department_name',
-        key: 'department_name',
+        title: 'ชื่อลูกค้า',
+        dataIndex: 'task_customer_name',
+        key: 'task_customer_name',
         width: '25%',
-        ...this.getColumnSearchProps('department_name'),
+        ...this.getColumnSearchProps('task_customer_name'),
         render: (text, record, index) =>(
           <span key={index}>
          {text}
@@ -149,19 +133,18 @@ handleReset = clearFilters => {
     },      
     {
       title: '',
-      dataIndex: 'department_id',
-      key: 'department_id2',
+      dataIndex: 'task_id',
+      key: 'task_id2',
       align: 'center',
-      width: '20%',
+      width: '10%',
       render: (text, record) =>
       <span>        
-        <NavLink exact to={`/department/update/` + text} style={{ color: '#337ab7' }}>
+        <NavLink exact to={`/task/update/` + text} style={{ color: '#337ab7' }}>
           <i className="fa fa-pencil-square-o" ></i>
         </NavLink>
-        <Button type="button" size="sm" color="link" style={{ color: 'red' }}
-          onClick={() => this.onDelete(text)}  >
-          <i className="fa fa-times" aria-hidden="true"></i>
-        </Button>
+        <NavLink exact to={`/task/detail/` + text} style={{ color: '#337ab7' }}>
+          <i className="fa fa-eye" ></i>
+        </NavLink>
       </span>
     },
   ];
@@ -172,16 +155,16 @@ handleReset = clearFilters => {
           <Col>
             <Card>
               <CardHeader>
-                <p>จัดการแผนก / Department Management</p>
+                <p>งานทั้งหมด / Task</p>
                 <br/>
-                <NavLink exact to={`/department/insert/`} style={{ width: '100%' }}>
+                <NavLink exact to={`/task/insert/`} style={{ width: '100%' }}>
                 <Button color="success" icon="plus" type="primary">Add</Button>
                 </NavLink>
 
               </CardHeader>
               <CardBody>
               <Table columns={columns} 
-              dataSource={this.state.department_list} 
+              dataSource={this.state.task_list} 
               />
               </CardBody>
             </Card>
