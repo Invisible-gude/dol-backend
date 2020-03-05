@@ -31,8 +31,9 @@ class TaskInsert extends Component {
       servicetype_list: [],
       servicetype: [],
       disabled: true,
-      service: [],
       disabledservice: true,
+      disabledgroup: false,
+      service: [],
       new_arr: [],
       selectgroup_name:[],
       selectgroup_value:[],
@@ -159,7 +160,10 @@ class TaskInsert extends Component {
     console.log("new_arr", new_arr);
 
     this.setState({
-      new_arr: new_arr
+      new_arr: new_arr,
+      disabled: true,
+      disabledgroup: true,
+
     })
 
   }
@@ -275,7 +279,9 @@ class TaskInsert extends Component {
                         <Select placeholder="กรุณาเลือกประเภท"
                           id="service_group_id"
                           onChange={this._onChangeServiceGroup.bind(this)}
-                          value={this.state.selectgroup_value}>
+                          value={this.state.selectgroup_value}
+                          disabled={this.state.disabledgroup}
+                          >
                           {servicegroup_select}
                         </Select>
                       </FormGroup>
