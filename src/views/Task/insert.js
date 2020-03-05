@@ -8,18 +8,21 @@ import {
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
-import DepartmentModel from '../../models/DepartmentModel';
+
 import ServiceGroupModel from '../../models/ServiceGroupModel';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import ServiceModel from '../../models/ServiceModel';
+import TaskModel from '../../models/TaskModel';
 import { Radio, Select, Table } from 'antd';
 
-var department_model = new DepartmentModel();
+
 var servicegroup_model = new ServiceGroupModel();
 var servicetype_model = new ServiceTypeModel();
 var service_model = new ServiceModel();
+var task_model = new TaskModel();
 
 const { Option } = Select;
+const user_login = JSON.parse(localStorage.getItem('user_login'));
 
 class TaskInsert extends Component {
 
@@ -33,13 +36,15 @@ class TaskInsert extends Component {
       disabled: true,
       service: [],
       disabledservice: true,
-      new_arr: [],
+      service_arr: [],
       selectgroup_name:[],
       selectgroup_value:[],
       selecttype_name:[],
       selecttype_value:[],
       selectservice_name:[],
-      selectservice_value:[],
+      selectservice_value : [],
+      radio_value : 'เอกสารครบแล้ว',
+      service_id_arr:[]
     };
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -90,7 +95,6 @@ class TaskInsert extends Component {
     this.setState({
       service: service_list.data
     })
-
   }
   _onChangeService(value,name) {
     this.setState({
@@ -102,31 +106,65 @@ class TaskInsert extends Component {
   onChange = e => {
     console.log('radio checked', e.target.value);
     this.setState({
-      value: e.target.value,
+      radio_value: e.target.value,
     });
   };
 
   async handleSubmit(event) {
     event.preventDefault();
     var arr = {};
-    var department_name = document.getElementById("department_name").value;
+    var queue = document.getElementById("queue").value;
+    var customer_name = document.getElementById("customer_name").value;
+    var customer_lastname = document.getElementById("customer_lastname").value;
+    var service_group = this.state.selectgroup_name.props.value;
+    var select_type = this.state.selecttype_name.props.value;
+    var service = this.state.selectservice_name.props.value;
 
-    if (department_name === '') {
+console.log("remark",service);
+    if (customer_name === '') {
       swal({
         title: "Warning!",
         text: "Please Enter Your Name ",
         icon: "warning",
         button: "Close",
       });
-    } else {
-      arr['department_name'] = department_name;
+    } else if (customer_lastname === ''){
+      swal({
+        title: "Warning!",
+        text: "Please Enter Your Last Name ",
+        icon: "warning",
+        button: "Close",
+      });
+    }else if (queue === ''){
+      swal({
+        title: "Warning!",
+        text: "Please Enter Your Queue ",
+        icon: "warning",
+        button: "Close",
+      });
+    } else
+    {
+      arr['task_code'] = queue;
+      arr['task_customer_name'] = customer_name;
+      arr['task_customer_lastname'] = customer_lastname;
+      arr['task_remark'] = this.state.radio_value;
+      arr['employee_id'] = user_login.employee_id;
+      
 
-      const department = await department_model.insertDepartment(arr);
-      if (department.result === true) {
+      var insert_task = this.state.service_id_arr
+      console.log("insert_task",insert_task);
+      console.log(arr);
+      
+
+      const task = await task_model.insertTask(arr);
+      if (task.query_result === true) {
+          this.state.service_id_arr = [task.task_id,this.state.service_id_arr]
+          console.log("testTest",this.state.service_id_arr );
+          console.log("testTest_id",task.task_id);
         swal("Save success!", {
           icon: "success",
         });
-        this.props.history.push('/department');
+        this.props.history.push('/task');
       } else {
         window.confirm("เพิ่มข้อมูลไม่สำเร็จ")
       }
@@ -138,9 +176,11 @@ class TaskInsert extends Component {
     console.log("Hello Button");
 
     var arr = {};
+    var s_arr ={};
     var servicegroup = this.state.selectgroup_name.props.name;
     var selecttype = this.state.selecttype_name.props.name;
     var service = this.state.selectservice_name.props.name;
+    var service_id = this.state.selectservice_name.props.value;
     console.log("servicegroup", servicegroup);
     console.log("selecttype", selecttype);
     console.log("service", service);
@@ -149,17 +189,21 @@ class TaskInsert extends Component {
     arr['servicegroup'] = servicegroup;
     arr['selecttype'] = selecttype;
     arr['service'] = service;
+    s_arr['service_id'] = service_id;
+    
 
 
-    var new_arr = this.state.new_arr
+    var service_arr = this.state.service_arr
+    var service_id_arr = this.state.service_id_arr
     // new_arr =[...new_arr,arr]
 
-    new_arr.push(arr) 
-    console.log("arr", arr);
-    console.log("new_arr", new_arr);
+    service_arr.push(arr) 
+    service_id_arr.push(s_arr)
+
+    console.log("service_id_arr",service_id_arr)
 
     this.setState({
-      new_arr: new_arr
+      service_arr: service_arr
     })
 
   }
@@ -170,8 +214,6 @@ class TaskInsert extends Component {
     //   <li key={item}>{item}</li>
     // ))}
     const columns = [
-
-
       {
         title: 'กลุ่ม',
         dataIndex: 'servicegroup',
@@ -241,30 +283,30 @@ class TaskInsert extends Component {
                     <Col lg="3">
                       <FormGroup>
                         <Label>ชื่อ / Name <font color="#F00"><b>*</b></font></Label>
-                        <Input type="text" id="department_name" name="department_name" className="form-control" />
+                        <Input type="text" id="customer_name" name="customer_name" className="form-control" />
                         <p className="help-block">Example : พิชญาภรณ์</p>
                       </FormGroup>
                     </Col>
                     <Col lg="3">
                       <FormGroup>
                         <Label>นามสกุล / Lastname <font color="#F00"><b>*</b></font></Label>
-                        <Input type="text" id="department_name" name="department_name" className="form-control" />
+                        <Input type="text" id="customer_lastname" name="customer_lastname" className="form-control" />
                         <p className="help-block">Example : กระสินธุ์หอม</p>
                       </FormGroup>
                     </Col>
                     <Col lg="3">
                       <FormGroup>
                         <Label>คิว / Queue <font color="#F00"><b>*</b></font></Label>
-                        <Input type="text" id="department_name" name="department_name" className="form-control" />
+                        <Input type="text" id="queue" name="queue" className="form-control" />
                         <p className="help-block">Example : 10111</p>
                       </FormGroup>
                     </Col>
                   </FormGroup>
                   <FormGroup row>
                     <Col lg="10">
-                      <Radio.Group onChange={this.onChange} value={this.state.value}>
-                        <Radio value={1}>เอกสารครบแล้ว</Radio>
-                        <Radio value={2}>เอกสารยังไม่ครบ</Radio>
+                      <Radio.Group onChange={this.onChange} value={this.state.radio_value} id="remark" name="remark" >
+                        <Radio value={'เอกสารครบแล้ว'} >เอกสารครบแล้ว</Radio>
+                        <Radio value={'เอกสารยังไม่ครบ'}>เอกสารยังไม่ครบ</Radio>
                       </Radio.Group>
                     </Col>
                   </FormGroup>
@@ -313,7 +355,7 @@ class TaskInsert extends Component {
                     </Col>
                   </FormGroup>
                   <Table columns={columns}
-                    dataSource={this.state.new_arr}
+                    dataSource={this.state.service_arr}
                     pagination={{ pageSize: 5 }}
                   />
                 </CardBody>
