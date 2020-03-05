@@ -1,11 +1,12 @@
 import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
-
 import { HashRouter, Route, Switch, } from 'react-router-dom';
 
 const Login = React.lazy(() => import('./views/Login/Login'));
 const MainLayout = React.lazy(() => import('./containers/MainLayout'));
+const MainLayoutEmployee = React.lazy(() => import('./containers/MainLayoutEmployee'));
+const MainLayoutExecutive = React.lazy(() => import('./containers/MainLayoutExecutive'));
+const MainLayoutPublicize = React.lazy(() => import('./containers/MainLayoutPublicize'));
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <React.Suspense fallback={loading()}>
           <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet" />
           <Switch>
-            <Route path="/" name="Home" render={props => <MainLayout {...props} />} />
+            <Route path="/" name="Home" render={props => <MainLayoutPublicize {...props} />} />
           </Switch>
         </React.Suspense>
       </HashRouter>
