@@ -6,6 +6,9 @@ import { HashRouter, Route, Switch, } from 'react-router-dom';
 
 const Login = React.lazy(() => import('./views/Login/Login'));
 const MainLayout = React.lazy(() => import('./containers/MainLayout'));
+const MainLayoutEmployee = React.lazy(() => import('./containers/MainLayoutEmployee'));
+const MainLayoutExecutive = React.lazy(() => import('./containers/MainLayoutExecutive'));
+const MainLayoutPublicize = React.lazy(() => import('./containers/MainLayoutPublicize'));
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 function App() {
@@ -31,7 +34,7 @@ function App() {
           <Switch>
             {user_login.department_name === 'admin'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
             {user_login.department_name === 'พนักงานประชาสัมพันธ์'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
-            {user_login.department_name === 'ผู้บริหาร'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
+            {user_login.department_name === ''  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
           </Switch>
         </React.Suspense>
       </HashRouter>
