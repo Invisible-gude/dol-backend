@@ -29,8 +29,9 @@ function App() {
         <React.Suspense fallback={loading()}>
           <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet" />
           <Switch>
-            {user_login.department_name === 'admin'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : <Route exact path="/login" name="Login Page" render={props => <Login {...props} />} />}
-          
+            {user_login.department_name === 'admin'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
+            {user_login.department_name === 'พนักงานประชาสัมพันธ์'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
+            {user_login.department_name === 'ผู้บริหาร'  ? <Route path="/" name="Home" render={props => <MainLayout {...props} />} /> : '' }
           </Switch>
         </React.Suspense>
       </HashRouter>
