@@ -82,4 +82,22 @@ export default class UserModel {
                 console.error(error);
             });
     }
+    async getProcessByTask(code) {
+        return fetch(GOBALS.URL + 'task/getProcessByTask', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                employee_id: code
+            })
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                //console.log("data", responseJson);
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
 }
