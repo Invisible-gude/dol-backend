@@ -82,15 +82,16 @@ export default class UserModel {
                 console.error(error);
             });
     }
-    async getProcessByTask(code) {
-        return fetch(GOBALS.URL + 'task/getProcessByTask', {
+    async getTaskByTaskCode(task_id,service_id) {
+        return fetch(GOBALS.URL + 'task/getTaskByTaskCode', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                employee_id: code
+                task_id: task_id,
+                service_id: service_id
             })
         }).then((response) => response.json())
             .then((responseJson) => {
@@ -100,4 +101,35 @@ export default class UserModel {
                 console.error(error);
             });
     }
+    async getTaskByDepartmentCode(code) {
+        return fetch(GOBALS.URL + 'task/getTaskByDepartmentCode', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(code)
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                //console.log("data", responseJson);
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
+        async checkTaskCode(data) {
+            return fetch(GOBALS.URL + 'task/checkTaskCode', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => response.json())
+                .then((responseJson) => {
+                    return responseJson;
+                }).catch((error) => {
+                    console.error(error);
+                });
+        }
 }
