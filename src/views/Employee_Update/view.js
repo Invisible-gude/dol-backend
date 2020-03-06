@@ -4,14 +4,16 @@ import { Card, CardHeader, Col, Row, CardBody,Button,
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 import TaskModel from '../../models/TaskModel';
-import { Table,Input} from 'antd';
+import TaskServiceModel from '../../models/TaskServiceModel';
+import { Table,Input,Modal} from 'antd';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined,EyeOutlined } from '@ant-design/icons';
+import QrReader from "react-qr-reader";
 
 
 
 var task_model = new TaskModel();
-
+var task_service_model = new TaskServiceModel();
 
 class EmployeeUpdateView extends Component {
   constructor(props) {
@@ -20,13 +22,33 @@ class EmployeeUpdateView extends Component {
       user_login: JSON.parse(localStorage.getItem('user_login')),
       searchText: '',
       searchedColumn: '',
+      task_list:[],
+      visible: false ,
+      delay: 300,
+      result: "No result",
+
     };
   }
-
+  handleScan = (data) => {
+    if (data) {
+      this.setState({
+        result: data
+      });
+    }
+  }
+  handleError(err) {
+    console.error(err);
+  }
   async componentDidMount() {
     console.log("user_login",this.state.user_login);
+    const task_list = await task_service_model.getTaskServiceBy();
+    console.log("task_list ===",task_list);
     
-    
+    this.setState({
+      task_list: task_list.data
+    })
+
+
   }
  
   getColumnSearchProps = dataIndex => ({
@@ -90,14 +112,34 @@ handleReset = clearFilters => {
   clearFilters();
   this.setState({ searchText: '' });
 };
+  
+showModal = () => {
+  this.setState({
+    visible: true,
+  });
+};
+
+handleOk = e => {
+  console.log(e);
+  this.setState({
+    visible: false,
+  });
+};
+
+handleCancel = e => {
+  console.log(e);
+  this.setState({
+    visible: false,
+  });
+};
   render() {
     const columns_soon = [
      
       {
         title: 'คิว',
-        dataIndex: 'task_code',
-        key: 'task_code',
-        width: '25%',
+        dataIndex: 'task_id',
+        key: 'task_id',
+        width: '15%',
         ...this.getColumnSearchProps('task_id'),
         render: (text, record, index) =>(
           <span key={index}>
@@ -107,16 +149,27 @@ handleReset = clearFilters => {
     },  
       {
           title: 'งาน',
-          dataIndex: 'task_name',
-          key: 'task_name',
+          dataIndex: 'service_id',
+          key: 'service_id',
           width: '25%',
-          ...this.getColumnSearchProps('task_id'),
+          ...this.getColumnSearchProps('service_id'),
           render: (text, record, index) =>(
             <span key={index}>
            {text}
         </span>
           )
-      },   
+      },  
+      {
+        title: '',
+        dataIndex: 'task_id',
+        key: 'task_id2',
+        align: 'center',
+        width: '10%',
+        render: (text, record) =>
+        <span>   
+          <EyeOutlined onClick={this.showModal}/>     
+        </span>
+      },
   ];
   const columns_finished = [
      
@@ -169,13 +222,28 @@ handleReset = clearFilters => {
                       <FormGroup>
                         <Label>งานที่เสร็จแล้ว<font color="#F00"></font> </Label>
                         <CardBody>
-                          <Table columns={columns_finished} 
+                          <Table 
+                          columns={columns_finished} 
                           dataSource={this.state.task_list} 
                           />
                         </CardBody>
                       </FormGroup>
                     </Col>
-                  </FormGroup>    
+                  </FormGroup>  
+                  <Modal
+                    title="รายละเอียด"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                  >
+                   <QrReader
+                    delay={this.state.delay}
+                    onError={this.handleError}
+                    onScan={this.handleScan}
+                    style={{ width: "100%" }}
+                  />
+                  <p>{this.state.result}</p>
+                  </Modal>  
               </CardHeader>
             
             </Card>

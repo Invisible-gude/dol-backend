@@ -19,4 +19,22 @@ export default class TaskServiceModel {
                 console.error(error);
             });
     }
+    async getTaskServiceBy(task,service) {
+        return fetch(GOBALS.URL + 'taskService/getTaskServiceBy', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                task_id:task,
+                service_id : service
+            })
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson;
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
 }
