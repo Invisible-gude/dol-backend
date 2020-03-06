@@ -214,6 +214,18 @@ handleReset = clearFilters => {
           )
       },
       {
+        title: 'ลำดับงาน',
+        dataIndex:  'process_no',
+        key: 'process_no',
+        width: '25%',
+        ...this.getColumnSearchProps('process_no'),
+        render: (text, record, index) =>(
+          <span key={index}>
+         {text}
+      </span>
+        )
+    },
+      {
         title: '',
         dataIndex: 'service_process_id',
         key: 'service_process_id',
