@@ -13,6 +13,7 @@ import ServiceGroupModel from '../../models/ServiceGroupModel';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import ServiceModel from '../../models/ServiceModel';
 import TaskModel from '../../models/TaskModel';
+import TaskServiceModel from '../../models/TaskServiceModel';
 import { Radio, Select, Table } from 'antd';
 
 
@@ -20,6 +21,7 @@ var servicegroup_model = new ServiceGroupModel();
 var servicetype_model = new ServiceTypeModel();
 var service_model = new ServiceModel();
 var task_model = new TaskModel();
+var task_service_model = new TaskServiceModel();
 
 const { Option } = Select;
 const user_login = JSON.parse(localStorage.getItem('user_login'));
@@ -160,9 +162,13 @@ console.log("remark",service);
 
       const task = await task_model.insertTask(arr);
       if (task.query_result === true) {
-          this.state.service_id_arr = [task.task_id,this.state.service_id_arr]
-          console.log("testTest",this.state.service_id_arr );
-          console.log("testTest_id",task.task_id);
+        var arr_task = {};
+        arr_task['task_id'] = task.task_id
+        arr_task['service'] = this.state.service_id_arr
+        console.log("arr_task ",arr_task)
+        for(let i=0;i<arr_task.service.length;i++){
+          await task_service_model.insertTaskService(arr_task.task_id,arr_task.service[i].service_id)
+        }
         swal("Save success!", {
           icon: "success",
         });
