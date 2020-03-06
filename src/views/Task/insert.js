@@ -12,7 +12,9 @@ import { Link } from 'react-router-dom';
 import ServiceGroupModel from '../../models/ServiceGroupModel';
 import ServiceTypeModel from '../../models/ServiceTypeModel';
 import ServiceModel from '../../models/ServiceModel';
+import ServiceProcessModel from '../../models/ServiceProcessModel';
 import TaskModel from '../../models/TaskModel';
+import TaskLogModel from '../../models/TaskLogModel';
 import TaskServiceModel from '../../models/TaskServiceModel';
 import { Radio, Select, Table } from 'antd';
 
@@ -21,7 +23,9 @@ var servicegroup_model = new ServiceGroupModel();
 var servicetype_model = new ServiceTypeModel();
 var service_model = new ServiceModel();
 var task_model = new TaskModel();
+var task_log_model = new TaskLogModel();
 var task_service_model = new TaskServiceModel();
+var service_process_model = new ServiceProcessModel();
 
 const { Option } = Select;
 const user_login = JSON.parse(localStorage.getItem('user_login'));
@@ -120,9 +124,8 @@ class TaskInsert extends Component {
     var queue = document.getElementById("queue").value;
     var customer_name = document.getElementById("customer_name").value;
     var customer_lastname = document.getElementById("customer_lastname").value;
-    var service_group = this.state.selectgroup_name.props.value;
-    var select_type = this.state.selecttype_name.props.value;
     var service = this.state.selectservice_name.props.value;
+    var select_type_id = this.state.selecttype_name.props.value;
 
 console.log("remark",service);
     if (customer_name === '') {
@@ -168,7 +171,11 @@ console.log("remark",service);
         console.log("arr_task ",arr_task)
         for(let i=0;i<arr_task.service.length;i++){
           await task_service_model.insertTaskService(arr_task.task_id,arr_task.service[i].service_id)
+          for(let j=0;j<arr_task.service[i].process_id.length;j++){
+            await task_log_model.insertTaskLog(arr_task.task_id,arr_task.service[i].service_id,arr_task.service[i].process_id[j].process_id)
+          }
         }
+
         swal("Save success!", {
           icon: "success",
         });
@@ -179,7 +186,7 @@ console.log("remark",service);
     }
   }
 
-  _inserTable(e) {
+ async _inserTable(e) {
     e.preventDefault()
     console.log("Hello Button");
 
@@ -189,17 +196,20 @@ console.log("remark",service);
     var selecttype = this.state.selecttype_name.props.name;
     var service = this.state.selectservice_name.props.name;
     var service_id = this.state.selectservice_name.props.value;
+    var select_type_id = this.state.selecttype_name.props.value;
     console.log("servicegroup", servicegroup);
     console.log("selecttype", selecttype);
     console.log("service", service);
-
+    var service_process = await service_process_model.getProcessByServiceTypeCode(select_type_id);
+    console.log("service_process",service_process.data)
+    console.log("service_process",service_process)
 
     arr['servicegroup'] = servicegroup;
     arr['selecttype'] = selecttype;
     arr['service'] = service;
     s_arr['service_id'] = service_id;
+    s_arr['process_id'] = service_process.data;
     
-
 
     var service_arr = this.state.service_arr
     var service_id_arr = this.state.service_id_arr
