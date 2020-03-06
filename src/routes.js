@@ -8,7 +8,8 @@ const ServiceType = React.lazy(() => import('./views/ServiceType'));
 const Service = React.lazy(() => import('./views/Service'));
 const ServiceProcess = React.lazy(() => import('./views/ServiceProcess'));
 const Task = React.lazy(() => import('./views/Task'));
-
+const Executive = React.lazy(() => import('./views/Executive'));
+const Employee_Update = React.lazy(() => import('./views/Employee_Update'));
 
 
 const routes = [
@@ -21,7 +22,8 @@ const routes = [
   { path: '/service', name: 'Service', component: Service },
   { path: '/serviceprocess', name: 'ServiceProcess', component: ServiceProcess },
   { path: '/task', name: 'Task', component: Task },
-
+  { path: '/executive', name: 'Executive', component: Executive },
+  { path: '/employee_update', name: 'Employee_Update', component: Employee_Update },
 
 
 

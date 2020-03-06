@@ -10,6 +10,7 @@ const MainLayoutEmployee = React.lazy(() => import('./containers/MainLayoutEmplo
 const MainLayoutExecutive = React.lazy(() => import('./containers/MainLayoutExecutive'));
 const MainLayoutPublicize = React.lazy(() => import('./containers/MainLayoutPublicize'));
 
+
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 function App() {
   const user_login = JSON.parse(localStorage.getItem('user_login'));
@@ -42,6 +43,8 @@ function App() {
       </HashRouter>
     );
   }
+  window.location.reload()
+
 }
 
 export default App;

@@ -11,7 +11,8 @@ import routes from '../routes';
 
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
-class DefaultLayout extends Component {
+
+class MainLayoutExecutive extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,86 +21,45 @@ class DefaultLayout extends Component {
     }
   }
   async componentDidMount() {
+    
   }
 
   onLogout(e) {
     e.preventDefault()
     localStorage.removeItem('user_login');
+    this.props.history.push('/login');
     window.location.reload()
   }
 
-  showMenu(e) {
-    e.preventDefault();
-    this.setState({
-      toggled: !this.state.toggled
-    })
-  }
 
   render() {
     const { user_login } = this.state
     return (
       <div className="app">
         <Layout style={{ minHeight: '100vh' }}>
-        {/* <Sider >
+        <Sider >
           <div className="logo" />
           
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" 
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['1']}>
             <Menu.Item key="0" style={{height:100}}>
                 <img src={logo} alt="Ravel Soft Logo" style={{width:100}}/>
             </Menu.Item>
             <Menu.Item key="1">
-              <Link to='/department'>
+              <Link to='/executive'>
                   <Icon type="pie-chart" />
-                  <span>Department</span>
+                  <span>งานทั้งหมด</span>
               </Link>
             </Menu.Item>
+           
             <Menu.Item key="2">
-              <Link to='/employee'>
-                <Icon type="user" />
-                <span>Employee</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to='/process'>
-                <Icon type="pie-chart" />
-                <span>Process</span>
-              </Link>
-            </Menu.Item>
-            <SubMenu
-              key="sub3"
-              
-              title={
-                <span>
-                 <Icon type="pie-chart" /> Service                  
-                </span>
-              }
-            >
-              <Menu.Item key="4">
-                <Link to='/servicegroup'>
-                  <Icon type="pie-chart" />
-                  <span>Service Group</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="5">
-                <Link to='/servicetype'>
-                  <Icon type="pie-chart" />
-                  <span>Service Type</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="6">
-                <Link to='/service'>
-                  <Icon type="pie-chart" />
-                  <span>Service</span>
-                </Link>
-              </Menu.Item>
-            </SubMenu>
-            <Menu.Item key="8">
               <Icon type="file" />
               <span onClick={e => this.onLogout(e)}>Logout</span>
             </Menu.Item>
-            
           </Menu>
-        </Sider> */}
+        </Sider>
         <Layout>
           <Header style={{ float: 'right', color:'#fff' }} > ผู้ใช้งาน : {user_login != null ? user_login.employee_name + '  ' + user_login.employee_lastname : null}</Header>
           <Container fluid>
@@ -130,5 +90,5 @@ class DefaultLayout extends Component {
 
 
 
-export default DefaultLayout;
+export default MainLayoutExecutive;
 
