@@ -4,7 +4,7 @@ import {
   Card, CardHeader, Col,
   Row, CardBody, Label,
   CardFooter,
-  Input, NavLink
+  Input, FormFeedback
 } from 'reactstrap';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
@@ -19,6 +19,7 @@ import TaskServiceModel from '../../models/TaskServiceModel';
 import { Radio, Select, Table } from 'antd';
 
 
+var QRCode = require('qrcode.react');
 var servicegroup_model = new ServiceGroupModel();
 var servicetype_model = new ServiceTypeModel();
 var service_model = new ServiceModel();
@@ -52,7 +53,9 @@ class TaskInsert extends Component {
       selectservice_name:[],
       selectservice_value : [],
       radio_value : 'เอกสารครบแล้ว',
-      service_id_arr:[]
+      service_id_arr:[],
+      my_queue:'',
+      disableQR: true,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -126,8 +129,11 @@ class TaskInsert extends Component {
     var customer_lastname = document.getElementById("customer_lastname").value;
     var service = this.state.selectservice_name.props.value;
     var select_type_id = this.state.selecttype_name.props.value;
+    await this.setState({
+      my_queue : queue
+    })
 
-console.log("remark",service);
+  console.log("remark",this.state.my_queue);
     if (customer_name === '') {
       swal({
         title: "Warning!",
@@ -219,21 +225,57 @@ console.log("remark",service);
     service_id_arr.push(s_arr)
 
     console.log("service_id_arr",service_id_arr)
-
+    var queue = document.getElementById("queue").value;
     this.setState({
       service_arr: service_arr,
       disabled: true,
       disabledgroup: true,
+      my_queue : queue
 
     })
 
   }
+  _onAdminUserChange(event) {
+    const task_text = event.target.value;
+    if (task_text === '') {
+      this.setState({
+        task_validate: "",
+        taske_validate_text: "",
+      })
+    } else {
+      task_model.checkTaskCode({ 'task_code': task_text }).then((responseJson) => {
+        if (responseJson.data.length === 0) {
+          this.setState({
+            task_validate: "VALID",
+            task_name: task_text
+          })
+        } else {
+          this.setState({
+            task_validate : "INVALID-DUPLICATE",
+            task_validate_text: "มีคิวนี้แล้ว",
+          })
+        }
+        this.render();
+      });
 
-
+    }
+  }
+  
+  
   render() {
-    // {this.state.list.map(item => (
-    //   <li key={item}>{item}</li>
-    // ))}
+    const downloadQR = () => {
+      const canvas = document.getElementById("qrcode");
+      const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+      let downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = "my-qrcode.png";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    };
+    
     const columns = [
       {
         title: 'กลุ่ม',
@@ -269,29 +311,29 @@ console.log("remark",service);
         )
       },
       // {
-      //   title: 'สถานะ',
-      //   dataIndex: 'service_group_id',
-      //   key: 'service_group_id2',
-      //   align: 'center',
-      //   width: '25%',
-      //   render: (text, record, index) =>
-      //     <span>
-
-      //     </span>
-      // },
-    ];
-    let servicegroup_select = this.state.servicegroup.map((item, index) => (
-      <Option key={index} value={item.service_group_id} name={item.service_group_name}>{item.service_group_name}</Option>
-    ))
-    let servicetype_select = this.state.servicetype.map((item, index) => (
-      <Option key={index} value={item.service_type_id} name={item.service_type_name}>{item.service_type_name}</Option>
-    ))
-    let service_select = this.state.service.map((item, index) => (
-      <Option key={index} value={item.service_id} name={item.service_name}>{item.service_name}</Option>
-    ))
-
-    return (
-      <div className="animated fadeIn">
+        //   title: 'สถานะ',
+        //   dataIndex: 'service_group_id',
+        //   key: 'service_group_id2',
+        //   align: 'center',
+        //   width: '25%',
+        //   render: (text, record, index) =>
+        //     <span>
+        
+        //     </span>
+        // },
+      ];
+      let servicegroup_select = this.state.servicegroup.map((item, index) => (
+        <Option key={index} value={item.service_group_id} name={item.service_group_name}>{item.service_group_name}</Option>
+        ))
+        let servicetype_select = this.state.servicetype.map((item, index) => (
+          <Option key={index} value={item.service_type_id} name={item.service_type_name}>{item.service_type_name}</Option>
+          ))
+          let service_select = this.state.service.map((item, index) => (
+            <Option key={index} value={item.service_id} name={item.service_name}>{item.service_name}</Option>
+            ))
+            
+            return (
+              <div className="animated fadeIn">
         <Row>
           <Col>
             <Card>
@@ -318,10 +360,18 @@ console.log("remark",service);
                     <Col lg="3">
                       <FormGroup>
                         <Label>คิว / Queue <font color="#F00"><b>*</b></font></Label>
-                        <Input type="text" id="queue" name="queue" className="form-control" />
+                        <Input type="text" id="queue" name="queue" className="form-control"
+                          valid={this.state.task_validate === "VALID"}
+                          invalid={this.state.task_validate === "INVALID-FORMAT" || this.state.task_validate === "INVALID-DUPLICATE"}
+                          onChange={(e) => { this._onAdminUserChange(e) }}
+                        />
+                      
+                        <FormFeedback valid >You can use this username.</FormFeedback>
+                        <FormFeedback invalid >{this.state.task_validate_text}</FormFeedback>
                         <p className="help-block">Example : 10111</p>
                       </FormGroup>
                     </Col>
+                    
                   </FormGroup>
                   <FormGroup row>
                     <Col lg="10">
@@ -353,7 +403,7 @@ console.log("remark",service);
                           onChange={this._onChangeServiceType.bind(this)}
                           value={this.state.selecttype_value}
                           disabled={this.state.disabled}
-                        >
+                          >
                           {servicetype_select}
                         </Select>
                       </FormGroup>
@@ -366,7 +416,7 @@ console.log("remark",service);
                           onChange={this._onChangeService.bind(this)}
                           value={this.state.selectservice_value}
                           disabled={this.state.disabledservice}
-                        >
+                          >
                           {service_select}
                         </Select>
                       </FormGroup>
@@ -380,7 +430,20 @@ console.log("remark",service);
                   <Table columns={columns}
                     dataSource={this.state.service_arr}
                     pagination={{ pageSize: 5 }}
-                  />
+                    />
+                      <FormGroup>
+                    {this.state.my_queue ?                 
+                        <QRCode
+                        id="qrcode"
+                        value={this.state.my_queue}
+                        size={100}
+                        level={"H"}
+                        includeMargin={true}
+                      /> 
+                      // <a onClick={downloadQR}> Download QR </a>
+                      : 
+                      ''}
+                      </FormGroup>
                 </CardBody>
                 <CardFooter>
                   <Link to="/department"><Button type="buttom" size="sm" > Back </Button></Link>

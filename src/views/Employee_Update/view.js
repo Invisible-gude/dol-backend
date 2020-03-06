@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, Col, Row, CardBody,Button,
   FormGroup, Label } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import swal from 'sweetalert';
 import TaskModel from '../../models/TaskModel';
 import TaskServiceModel from '../../models/TaskServiceModel';
 import { Table,Input,Modal} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined,EyeOutlined } from '@ant-design/icons';
-import QrReader from "react-qr-reader";
 
 
 
 var task_model = new TaskModel();
 var task_service_model = new TaskServiceModel();
+var QRCode = require('qrcode.react');
 
 class EmployeeUpdateView extends Component {
   constructor(props) {
@@ -26,6 +24,8 @@ class EmployeeUpdateView extends Component {
       visible: false ,
       delay: 300,
       result: "No result",
+      process:[],
+      task_select:[],
 
     };
   }
@@ -41,7 +41,7 @@ class EmployeeUpdateView extends Component {
   }
   async componentDidMount() {
     console.log("user_login",this.state.user_login);
-    const task_list = await task_service_model.getTaskServiceBy();
+    const task_list = await task_model.getTaskByDepartmentCode({department_id : this.state.user_login.department_id});
     console.log("task_list ===",task_list);
     
     this.setState({
@@ -112,11 +112,18 @@ handleReset = clearFilters => {
   clearFilters();
   this.setState({ searchText: '' });
 };
+
+async showModal(task_id,service_id){
+  console.log("task_code",task_id);
+  console.log("service_id",service_id);
   
-showModal = () => {
+  const task = await task_model.getTaskByTaskCode(task_id,service_id);
+  console.log("task",task);
   this.setState({
+    task_select:task.data,
     visible: true,
   });
+
 };
 
 handleOk = e => {
@@ -132,7 +139,21 @@ handleCancel = e => {
     visible: false,
   });
 };
+
   render() {
+    const downloadQR = () => {
+      const canvas = document.getElementById("123456");
+      const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      let downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = "123456.png";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    };
+
     const columns_soon = [
      
       {
@@ -149,10 +170,10 @@ handleCancel = e => {
     },  
       {
           title: 'งาน',
-          dataIndex: 'service_id',
-          key: 'service_id',
+          dataIndex: 'service_name',
+          key: 'service_name',
           width: '25%',
-          ...this.getColumnSearchProps('service_id'),
+          ...this.getColumnSearchProps('service_name'),
           render: (text, record, index) =>(
             <span key={index}>
            {text}
@@ -167,7 +188,8 @@ handleCancel = e => {
         width: '10%',
         render: (text, record) =>
         <span>   
-          <EyeOutlined onClick={this.showModal}/>     
+          <EyeOutlined 
+          onClick={() => this.showModal(record.task_id,record.service_id)}/>     
         </span>
       },
   ];
@@ -197,6 +219,21 @@ handleCancel = e => {
       </span>
         )
     },   
+];
+  const columns_process = [
+     
+    {
+      title: 'กระบวนการ',
+      dataIndex: 'process_name',
+      key: 'process_name',
+      width: '25%',
+      render: (text, record, index) =>(
+        <span key={index}>
+       {text}
+    </span>
+      )
+  },  
+   
 ];
 
     return (
@@ -236,13 +273,18 @@ handleCancel = e => {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                   >
-                   <QrReader
-                    delay={this.state.delay}
-                    onError={this.handleError}
-                    onScan={this.handleScan}
-                    style={{ width: "100%" }}
-                  />
-                  <p>{this.state.result}</p>
+                     <Table 
+                          columns={columns_process} 
+                          dataSource={this.state.task_select} 
+                          />
+                  {/* <QRCode
+                      id="123456"
+                      value="123456"
+                      size={290}
+                      level={"H"}
+                      includeMargin={true}
+                    />
+                    <a onClick={downloadQR}> Download QR </a> */}
                   </Modal>  
               </CardHeader>
             
