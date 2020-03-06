@@ -3,7 +3,7 @@ import { Card, CardHeader, Col, Row, CardBody,Button,
   FormGroup, Label } from 'reactstrap';
 import TaskModel from '../../models/TaskModel';
 import TaskServiceModel from '../../models/TaskServiceModel';
-import { Table,Input,Modal} from 'antd';
+import { Table,Input,Modal,Timeline} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined,EyeOutlined } from '@ant-design/icons';
 
@@ -220,21 +220,10 @@ handleCancel = e => {
         )
     },   
 ];
-  const columns_process = [
-     
-    {
-      title: 'กระบวนการ',
-      dataIndex: 'process_name',
-      key: 'process_name',
-      width: '25%',
-      render: (text, record, index) =>(
-        <span key={index}>
-       {text}
-    </span>
-      )
-  },  
-   
-];
+
+let process_select = this.state.task_select.map((item, index) => ( 
+ item.task_log_status === 1 ? <Timeline.Item  key={index} color="green">{item.process_name}</Timeline.Item> : <Timeline.Item  key={index} color="gray">{item.process_name}</Timeline.Item>
+))
 
     return (
       <div className="animated fadeIn">
@@ -246,6 +235,7 @@ handleCancel = e => {
                 <br/>
                 <FormGroup row>
                     <Col lg="6">
+                      <Card>
                       <FormGroup>
                         <Label>งานที่กำลังจะมาถึง<font color="#F00"></font></Label>
                         <CardBody>
@@ -254,8 +244,10 @@ handleCancel = e => {
                           />
                         </CardBody>
                       </FormGroup>
+                      </Card>
                     </Col>
                     <Col lg="6">
+                    <Card>
                       <FormGroup>
                         <Label>งานที่เสร็จแล้ว<font color="#F00"></font> </Label>
                         <CardBody>
@@ -265,6 +257,7 @@ handleCancel = e => {
                           />
                         </CardBody>
                       </FormGroup>
+                      </Card>
                     </Col>
                   </FormGroup>  
                   <Modal
@@ -272,11 +265,10 @@ handleCancel = e => {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                  >
-                     <Table 
-                          columns={columns_process} 
-                          dataSource={this.state.task_select} 
-                          />
+                  >                    
+                          <Timeline>
+                          {process_select}
+                          </Timeline>
                   {/* <QRCode
                       id="123456"
                       value="123456"
