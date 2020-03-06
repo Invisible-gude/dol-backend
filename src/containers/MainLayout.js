@@ -20,11 +20,14 @@ class DefaultLayout extends Component {
     }
   }
   async componentDidMount() {
+    
   }
 
   onLogout(e) {
     e.preventDefault()
     localStorage.removeItem('user_login');
+    // window.location.reload('/login')
+    this.props.history.push('/login');
     window.location.reload()
   }
 
@@ -43,7 +46,10 @@ class DefaultLayout extends Component {
         <Sider >
           <div className="logo" />
           
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" 
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['1']}>
             <Menu.Item key="0" style={{height:100}}>
                 <img src={logo} alt="Ravel Soft Logo" style={{width:100}}/>
             </Menu.Item>
@@ -93,7 +99,7 @@ class DefaultLayout extends Component {
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="8">
+            <Menu.Item key="7">
               <Icon type="file" />
               <span onClick={e => this.onLogout(e)}>Logout</span>
             </Menu.Item>
