@@ -75,7 +75,7 @@ class ServiceTypeDetail extends Component {
         } else {
           arr['process_id'] = process_id;
           arr['service_type_id'] = service_type_id;
-    
+
         const service = await serviceProcess_model.insertServiceProcess(arr.process_id,arr.service_type_id);
         console.log('employee ', arr);
         if (service.query_result === true) {
